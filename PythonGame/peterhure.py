@@ -13,7 +13,6 @@ def hure():
     screen.blit(player,(x,y))
     pg.display.update()
     
-    
 
     running = True
     
@@ -59,3 +58,5 @@ def hure():
         
         
 hure()    
+
+

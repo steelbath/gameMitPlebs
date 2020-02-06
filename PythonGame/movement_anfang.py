@@ -18,14 +18,15 @@ def main():
     
     pg.mouse.set_visible(True)
     pg.key.set_repeat(1,1)
+    i1=1
 
     while running:
      
         pg.event.pump()
         #pg.mouse.get_rel()
-        
-        
-        
+        print(i1)
+        i1+=1
+
         for event in pg.event.get():
             
           
