@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>242c130f-426c-44b1-9da7-269527289382</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>movement_anfang.py</StartupFile>
+    <StartupFile>peterhure.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -22,6 +22,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Beispielsachen.py" />
+    <Compile Include="peterhure.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="movement_anfang.py">
       <SubType>Code</SubType>
     </Compile>
