@@ -10,7 +10,7 @@ def hure():
     player_rect = player.get_rect()
     screen.blit(player,(x,y))
     pg.display.update()
-    
+    print(player)
 
     running = True
     
@@ -54,7 +54,4 @@ def hure():
                 if event.key == pg.K_ESCAPE:
                     running = False
         
-        
-hure()    
-
-
+hure()

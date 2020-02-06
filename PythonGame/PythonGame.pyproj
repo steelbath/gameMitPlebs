@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>242c130f-426c-44b1-9da7-269527289382</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>peterhure.py</StartupFile>
+    <StartupFile>Noose Experiments\module1.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -22,17 +22,27 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Beispielsachen.py" />
+    <Compile Include="Noose Experiments\module2.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="peterhure.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="movement_anfang.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Noose Experiments\module1.py">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="intro_ball.gif" />
+    <Content Include="background.png" />
     <Content Include="red_square.png" />
     <Content Include="Spielfigur.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Noose Experiments\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
