@@ -40,7 +40,7 @@ def hure():
     
 
     running = True
-    
+    n
     pg.mouse.set_visible(True)
     
 
