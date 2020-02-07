@@ -1,5 +1,6 @@
 import pygame as pg
 import numpy as np
+
 class Enemies:
     def __init__(self,image,speed_x,speed_y):
         self.image = image
@@ -8,16 +9,15 @@ class Enemies:
         self.pos = image.get_rect().move(0,0)
 
     def move(self):
-        self.pos = self.pos.move(self.speed_x,self.speed_y)
-        if self.pos.right > 800:
+        newposx =  self.pos.x + self.speed_x
+        newposy =  self.pos.y + self.speed_y
 
-            self.speed_x = np.random.randint(-10,-1)
-        if self.pos.left < 0:
-            self.speed_x = np.random.randint(1,10)
-        if self.pos.top < 0:
-            self.speed_y = np.random.randint(-10,-1)
-        if self.pos.bottom > 800:
-            self.speed_y = np.random.randint(1,10)
+        if newposx > 1024 or newposx < 0:
+            self.speed_x*= -1
+        if newposy > 768 or newposy < 0:
+            self.speed_y*= -1
+        self.pos = self.pos.move(self.speed_x,self.speed_y)
+
 mobs=[]
 enemy = pg.image.load("noose_fotze.png")
 
