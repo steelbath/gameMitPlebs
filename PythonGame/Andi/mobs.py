@@ -1,5 +1,7 @@
 import pygame as pg
 import numpy as np
+
+Clock = pg.time.Clock()
 class Enemies:
     
     def __init__(self,image,speed_x,speed_y,x,y):
@@ -37,7 +39,10 @@ def hure():
     background=pg.image.load("background.png").convert()
     player_rect = player.get_rect()
 
-    screen.blit(player,(640,360))
+    x = 640
+    y = 360
+
+    screen.blit(player,(x,y))
     pg.display.update()
     
 
@@ -47,9 +52,37 @@ def hure():
     
 
     while running:
+        
         for m in mobs:
             screen.blit(background,(0,0))
-            screen.blit(player,(640,360))
+            screen.blit(player,(x,y))
+            pressed = pg.key.get_pressed()
+        
+            if pressed[pg.K_LEFT]:
+                x-=3
+                position_new=player_rect.move(x,y)
+                screen.blit(background,(0,0))
+                screen.blit(player,position_new)
+                pg.display.update()
+            if pressed[pg.K_RIGHT]:
+                x+=3
+                position_new=player_rect.move(x,y)
+                screen.blit(background,(0,0))
+                screen.blit(player,position_new)
+                pg.display.update()
+            if pressed[pg.K_UP]:
+                y-=3
+                position_new=player_rect.move(x,y)
+                screen.blit(background,(0,0))
+                screen.blit(player,position_new)
+                pg.display.update()
+            if pressed[pg.K_DOWN]:
+                y+=3
+                position_new=player_rect.move(x,y)
+                screen.blit(background,(0,0))
+                screen.blit(player,position_new)
+                pg.display.update()
+            
             
         for m in mobs:
             m.move()
@@ -58,8 +91,9 @@ def hure():
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_ESCAPE:
                     running = False
+
             
         pg.display.update()
-        pg.time.delay(100)
+        Clock.tick(200)
             
 hure()
