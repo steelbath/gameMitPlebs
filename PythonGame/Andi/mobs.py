@@ -56,32 +56,28 @@ def hure():
         for m in mobs:
             screen.blit(background,(0,0))
             screen.blit(player,(x,y))
-            pressed = pg.key.get_pressed()
+        pressed = pg.key.get_pressed()
         
-            if pressed[pg.K_LEFT]:
-                x-=3
-                position_new=player_rect.move(x,y)
-                screen.blit(background,(0,0))
-                screen.blit(player,position_new)
-                pg.display.update()
-            if pressed[pg.K_RIGHT]:
-                x+=3
-                position_new=player_rect.move(x,y)
-                screen.blit(background,(0,0))
-                screen.blit(player,position_new)
-                pg.display.update()
-            if pressed[pg.K_UP]:
-                y-=3
-                position_new=player_rect.move(x,y)
-                screen.blit(background,(0,0))
-                screen.blit(player,position_new)
-                pg.display.update()
-            if pressed[pg.K_DOWN]:
-                y+=3
-                position_new=player_rect.move(x,y)
-                screen.blit(background,(0,0))
-                screen.blit(player,position_new)
-                pg.display.update()
+        if pressed[pg.K_LEFT]:
+            x-=3
+            position_new=player_rect.move(x,y)
+            screen.blit(player,position_new)
+            pg.display.update()
+        if pressed[pg.K_RIGHT]:
+            x+=3
+            position_new=player_rect.move(x,y)
+            screen.blit(player,position_new)
+            pg.display.update()
+        if pressed[pg.K_UP]:
+            y-=3
+            position_new=player_rect.move(x,y)
+            screen.blit(player,position_new)
+            pg.display.update()
+        if pressed[pg.K_DOWN]:
+            y+=3
+            position_new=player_rect.move(x,y)
+            screen.blit(player,position_new)
+            pg.display.update()
             
             
         for m in mobs:
