@@ -7,29 +7,25 @@ def check_events(P1):
         if event.type==pg.QUIT:
             sys.exit()
 
-    accel=0.01
 
-    pressed=pg.key.get_pressed()
-    if pressed[pg.K_RIGHT]:
-        if P1.speed[0] < 1:
-            P1.speed[0]+=accel
-    elif P1.speed[0] > 0:
-        P1.speed[0]-=accel
-    if pressed[pg.K_LEFT]:
-        if P1.speed[0] > -1:
-            P1.speed[0]-=accel
-    elif P1.speed[0] > 0:
-        P1.speed[0]+=accel
-    if pressed[pg.K_UP]:
-        if P1.speed[1] > -1:
-            P1.speed[1]-=accel
-    elif P1.speed[1] > 0:
-        P1.speed[1]+=accel
-    if pressed[pg.K_DOWN]:
-        if P1.speed[1] < 1:
-            P1.speed[1]+=accel
-    elif P1.speed[1] > 0:
-        P1.speed[1]-=accel
+        accel = 0.01
+        if event.type == pg.KEYDOWN:
+            if event.key == pg.K_RIGHT:
+                if P1.speed[0] < 1:
+                    P1.speed[0]+=accel
+            if event.key == pg.K_LEFT:
+                if P1.speed[0] > -1:
+                    P1.speed[0]-=accel
+            if event.key == pg.K_UP: 
+                if P1.speed[1] > -1:
+                    P1.speed[1]-=accel
+            if event.key == pg.K_DOWN:
+                if P1.speed[1] < 1:
+                    P1.speed[1]+=accel
+  #      if event.type == pg.KEYUP:
+ #           if event.key == pg.RIGHT:
+#                decelL
+
 
 def update_screen(GS, screen, P1):
     screen.fill(GS.bg_color)
