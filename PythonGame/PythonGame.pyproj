@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>242c130f-426c-44b1-9da7-269527289382</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>Andi\mobs.py</StartupFile>
+    <StartupFile>Noose Experiments\frigginshootstuff.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -25,7 +25,7 @@
     <Compile Include="Andi\mobs.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Noose Experiments\module2.py">
+    <Compile Include="Noose Experiments\classfile.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Andi\peterhure.py">
@@ -34,7 +34,16 @@
     <Compile Include="Andi\movement_anfang.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Noose Experiments\dumpfile.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Noose Experiments\module1.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Noose Experiments\frigginshootstuff.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Noose Experiments\GameFunctions.py">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
@@ -42,6 +51,7 @@
     <Content Include="10372291_648047575285066_1884809349019088769_n.png" />
     <Content Include="intro_ball.gif" />
     <Content Include="background.png" />
+    <Content Include="Noose Experiments\Spielfigur.png" />
     <Content Include="red_square.png" />
     <Content Include="Spielfigur.png" />
   </ItemGroup>

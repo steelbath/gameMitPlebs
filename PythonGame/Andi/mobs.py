@@ -26,6 +26,7 @@ class Enemies:
 mobs=[]
 enemy = pg.image.load("noose_fotze.png")
 a=np.array([0,640,1000])
+
 b=np.array([0,360,500])
 
 for i in range(10):
@@ -59,7 +60,7 @@ def hure():
         pressed = pg.key.get_pressed()
         
         if pressed[pg.K_LEFT]:
-            x-=3
+            x-=
             position_new=player_rect.move(x,y)
             screen.blit(background,(0,0))
             screen.blit(player,position_new)
