@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>242c130f-426c-44b1-9da7-269527289382</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>Andi\mobs.py</StartupFile>
+    <StartupFile>Andi\prototype_0.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -23,6 +23,9 @@
   <ItemGroup>
     <Compile Include="Andi\Beispielsachen.py" />
     <Compile Include="Andi\mobs.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Andi\prototype_0.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Noose Experiments\module2.py">
