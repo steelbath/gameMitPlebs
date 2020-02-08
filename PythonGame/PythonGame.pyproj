@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>242c130f-426c-44b1-9da7-269527289382</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>Noose Experiments\frigginshootstuff.py</StartupFile>
+    <StartupFile>Noose Experiments\frigginmovestuff.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -40,7 +40,7 @@
     <Compile Include="Noose Experiments\module1.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Noose Experiments\frigginshootstuff.py">
+    <Compile Include="Noose Experiments\frigginmovestuff.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Noose Experiments\GameFunctions.py">
