@@ -21,17 +21,7 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Andi\Beispielsachen.py" />
-    <Compile Include="Andi\mobs.py">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Noose Experiments\classfile.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Andi\peterhure.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Andi\movement_anfang.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Noose Experiments\dumpfile.py">
@@ -51,12 +41,10 @@
     <Content Include="10372291_648047575285066_1884809349019088769_n.png" />
     <Content Include="intro_ball.gif" />
     <Content Include="background.png" />
-    <Content Include="Noose Experiments\Spielfigur.png" />
     <Content Include="red_square.png" />
     <Content Include="Spielfigur.png" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Andi\" />
     <Folder Include="Noose Experiments\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />

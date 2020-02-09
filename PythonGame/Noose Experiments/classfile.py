@@ -47,7 +47,7 @@ class Creature():
 class Player(Creature):
     #MaxWalkSpeed
     MWS=3.5
-    ACCEL=0.1
+    ACCEL=0.15
     def __init__(self, *args):
         #up left down right
         self.direction = [0, 0]
