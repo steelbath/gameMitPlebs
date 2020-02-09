@@ -70,9 +70,7 @@ class Position(object, metaclass=PositionMeta):
         return self.get_distance_to(Position(x, y))
 
     def normalize_to(self, other_pos) -> 'Position':
-        normal_x = self.x - other_pos.x
-        normal_y = self.y - other_pos.y
-        return Position(normal_x, normal_y)
+        return self - other_pos
 
     @property
     def as_tuple(self):

@@ -8,7 +8,7 @@ class GUI(object):
     _elements = list()  # List of all gui elements on screen
 
     # List of layouts containing their own elements, needed for 
-    # tracking element order when changing slected interactive GUI element
+    # tracking element order when changing selected interactive GUI element
     # via arrows or tab
     _layouts = list()  
 
@@ -20,15 +20,15 @@ class GUI(object):
     def update(self):
         # Draw background first
         if self.background_image:
-            GUI_STATIC.active_screen.blit(self.set_background_image, (0, 0))
+            GUI_STATIC.active_screen.blit(self.background_image)
         elif self.background_color:
-            GUI_STATIC.active_screen.fill(self.background_color.as_tuple, (0, 0, 20, 20))
+            GUI_STATIC.active_screen.fill(self.background_color.as_tuple)
         else:
             # Default to black background if None was set before
             self.background_color = Color.black
-            GUI_STATIC.active_screen.fill(self.background_color.as_tuple, (0, 0))
+            GUI_STATIC.active_screen.fill(self.background_color.as_tuple)
 
-        # Handle input here perhaps?
+        # TODO: Handle input here perhaps?
 
         # Then draw all the elements
         for elem in self._elements:
@@ -38,8 +38,6 @@ class GUI(object):
         pg.display.update()
 
     def add_element(self, element):
-        # Take also the position in the list, so we can use blits() instead
-        # of drawing them one at a time
         self._elements.append(element)
 
     def add_layout(self, layout):
