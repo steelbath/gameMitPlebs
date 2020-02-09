@@ -1,14 +1,8 @@
-import pygame as pg
 import numpy as np
+import pygame as pg
+from classes import * 
 
 Clock = pg.time.Clock()
-
-
-import numpy as np
-import pygame as pg
-
-
-
 
 
 def mobs_create():
@@ -60,8 +54,8 @@ def main():
                 screen.blit(projectile, (projectiles[m,0], projectiles[m,1]))
             if projectiles[m,1] < 0 and projectiles[m,0] > 0:
                 projectiles[m]=np.zeros((4))
-            if m == 60:
-                event_number = 0
+            if m == 70:
+                event_number = 30
      
         
         

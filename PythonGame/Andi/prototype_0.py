@@ -125,7 +125,7 @@ def main():
         for k in np.arange(len(projectile_position)):
                
                 projectile_position_1.append(projectile_position[k].move(0,-10))
-                screen.blit(projectile, projectile_position_1[k])
+                  screen.blit(projectile, projectile_position_1[k])
                 pg.display.update()
                 if projectile_position_1[k].top < 0:
          
