@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>242c130f-426c-44b1-9da7-269527289382</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>Andi\mobs.py</StartupFile>
+    <StartupFile>Riku\main.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -12,6 +12,8 @@
     <Name>PythonGame</Name>
     <RootNamespace>PythonGame</RootNamespace>
     <IsWindowsApplication>False</IsWindowsApplication>
+    <LaunchProvider>Standard Python launcher</LaunchProvider>
+    <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -26,10 +28,19 @@
     <Compile Include="Andi\mobs.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="gui\classes.py" />
+    <Compile Include="gui\base_classes.py" />
+    <Compile Include="gui\fonts.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="gui\classes.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="gui\__init__.py" />
     <Compile Include="gui\layout\classes.py" />
     <Compile Include="gui\layout\__init__.py" />
+    <Compile Include="Riku\main.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="utility\classes.py" />
     <Compile Include="utility\__init__.py" />
     <Compile Include="Noose Experiments\module2.py">
@@ -54,7 +65,11 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Andi\" />
+    <Folder Include="gui\" />
+    <Folder Include="gui\layout\" />
+    <Folder Include="Riku\" />
     <Folder Include="Noose Experiments\" />
+    <Folder Include="utility\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
