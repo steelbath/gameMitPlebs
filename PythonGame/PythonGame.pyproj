@@ -29,6 +29,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Andi\Prot_1\classfile.py" />
+    <Compile Include="Andi\Prot_1\frigginmovestuff.py" />
+    <Compile Include="Andi\Prot_1\GameFunctions.py" />
     <Compile Include="Noose Experiments\classfile.py">
       <SubType>Code</SubType>
     </Compile>

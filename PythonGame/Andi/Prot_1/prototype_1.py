@@ -1,7 +1,7 @@
 import numpy as np
 import pygame as pg
 from classes import * 
-
+from classfile import *
 
 
 Clock = pg.time.Clock()
