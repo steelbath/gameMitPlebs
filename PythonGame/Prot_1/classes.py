@@ -35,16 +35,13 @@ class Player:
 
         self.x = 0
         self.y = 0
+       
 
-    def move(self, pressed, projectile, speed_x, speed_y):
+    def move(self, pressed):
         
         self.screen.blit(self.image, self.pos)
         self.pressed = pressed
 
-        self.projectile = projectile
-        self.projectile_pos = self.pos
-        self.speed_x = speed_x
-        self.speed_y = speed_y
         
         if self.pressed[pg.K_LEFT]:
     

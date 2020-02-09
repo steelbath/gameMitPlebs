@@ -43,13 +43,21 @@ def main():
 
     while running:
         
-        
+        for event in pg.event.get():
+            
+            if  event.type == pg.KEYDOWN:
+                
+                if event.key == pg.K_SPACE:
+                    event_number += 1
+                    projectiles[event_number] = (Player_0.move(pg.key.get_pressed()))
+                if event.key == pg.K_ESCAPE:
+                    running = False
 
-        for m in mobs:
-            screen.blit(background, (0,0))
+       
+        screen.blit(background, (0,0))
 
         projectiles -= np.array([0,5,0,0])
-        for m in np.arange(event_number):
+        for m in np.arange(event_number+1):
             if projectiles[m,0] > 0:
                 screen.blit(projectile, (projectiles[m,0], projectiles[m,1]))
             if projectiles[m,1] < 0 and projectiles[m,0] > 0:
@@ -57,24 +65,10 @@ def main():
             if m == 70:
                 event_number = 30
      
-        
-        
-
-
-        for event in pg.event.get():
-            
-            if  event.type == pg.KEYDOWN:
-                
-                if event.key == pg.K_SPACE:
-                    event_number += 1
-                    projectiles[event_number] = (Player_0.move(pg.key.get_pressed(),projectile,10,10))
-                    print(event_number)
-                    print(projectiles)
-                if event.key == pg.K_ESCAPE:
-                    running = False
+       
 
         
-        Player_0.move(pg.key.get_pressed(),projectile,10,10)
+        Player_0.move(pg.key.get_pressed())
         
         
         for m in mobs:   
