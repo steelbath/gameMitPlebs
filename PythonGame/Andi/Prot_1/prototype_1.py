@@ -11,7 +11,6 @@ Clock = pg.time.Clock()
 def mobs_create():
     mobs=[]
     mobs_rect=[]
-
     enemy = pg.image.load("enemy sprite slurp.png")
 
     for i in np.arange(5):
@@ -25,11 +24,14 @@ def mobs_create():
 
 
 def main():
+    
+    GS = GameSettings()
+
     #getting the mobs objects from the function
     mobs = mobs_create()[0]
 
     #numpy array for the projectiles
-    projectiles = np.zeros((100,4))
+    projectiles = np.zeros((100,2))
 
     #counter for the allocation of the projectiles into the array
     event_number = -1
@@ -46,7 +48,7 @@ def main():
     pg.mouse.set_visible(True)
     
     #getting the Player object
-    Player_0 = Player(player, 5, screen, background) 
+    #Player_0 = Player(player, 5, screen, background) 
     Player1 = Player(screen, pg.image.load("Spielfigur.png").convert(), (500,500),(0,0))
 
     while running:
@@ -60,14 +62,14 @@ def main():
                     event_number += 1
                     #assining the projectiles coordinates [x,y,length,height] to the array
                     #the index is given by the event_number counter
-                    projectiles[event_number] = (Player_0.move(pg.key.get_pressed()))
+                    projectiles[event_number] = (Player1.pos)
                 if event.key == pg.K_ESCAPE:
                     running = False
 
        
         screen.blit(background, (0,0))
         #adding (-5) to the y-Coordinate the projectiles to "move" them 
-        projectiles -= np.array([0,5,0,0])
+        projectiles -= np.array([0,5])
         for m in np.arange(event_number+1):
             #only consider the projectiles which are not zero at the x-coordinate to
             #prevent the zeros to get blitted
@@ -76,7 +78,7 @@ def main():
 
             #delete the projectiles which are actually projectiles (x > 0) and are out of the screen (y < 0)
             if projectiles[m,1] < 0 and projectiles[m,0] > 0:
-                projectiles[m]=np.zeros((4))
+                projectiles[m]=np.zeros((2))
             
             #reset the timer when more than 70 projectiles were in game 
             if m == 70:
@@ -88,7 +90,7 @@ def main():
         gf.check_events(Player1)
         Player1.checkKeys()
         Player1.update()
-        gf.update_screen(GS, screen, Player1)
+        gf.update_screen(GS, background, Player1)
         
         #blit the mobs
         for m in mobs:   
@@ -96,7 +98,7 @@ def main():
             screen.blit(m.image,m.pos)
         
         pg.display.update()
-        Clock.tick(100)
+        Clock.tick(120)
 
 
 main()

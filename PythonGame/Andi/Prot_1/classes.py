@@ -21,7 +21,7 @@ class Enemies:
             self.speed_y = np.random.randint(1,10)
         if self.pos.bottom > 720:
             self. speed_y = np.random.randint(-10,-1)
-class Player:
+class Playerz:
     
     def __init__(self, image, move_speed, screen, background):
         
