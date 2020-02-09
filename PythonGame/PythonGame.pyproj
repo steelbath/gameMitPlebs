@@ -46,10 +46,10 @@
     <Compile Include="Noose Experiments\module1.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Noose Experiments\frigginmovestuff.py">
+    <Compile Include="Main.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Noose Experiments\GameFunctions.py">
+    <Compile Include="GameFunctions.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Andi\Prot_1\classes.py" />
