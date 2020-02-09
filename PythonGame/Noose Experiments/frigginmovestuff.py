@@ -16,6 +16,7 @@ def game():
 
     while True:
         gf.check_events(Player1)
+        Player1.checkKeys()
         Player1.update()
         gf.update_screen(GS, screen, Player1) 
 
