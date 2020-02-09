@@ -11,6 +11,7 @@
     <OutputPath>.</OutputPath>
     <Name>PythonGame</Name>
     <RootNamespace>PythonGame</RootNamespace>
+    <IsWindowsApplication>False</IsWindowsApplication>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -25,6 +26,12 @@
     <Compile Include="Andi\mobs.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="gui\classes.py" />
+    <Compile Include="gui\__init__.py" />
+    <Compile Include="gui\layout\classes.py" />
+    <Compile Include="gui\layout\__init__.py" />
+    <Compile Include="utility\classes.py" />
+    <Compile Include="utility\__init__.py" />
     <Compile Include="Noose Experiments\module2.py">
       <SubType>Code</SubType>
     </Compile>
@@ -37,6 +44,7 @@
     <Compile Include="Noose Experiments\module1.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Noose Experiments\__init__.py" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="10372291_648047575285066_1884809349019088769_n.png" />
@@ -48,6 +56,7 @@
   <ItemGroup>
     <Folder Include="Andi\" />
     <Folder Include="Noose Experiments\" />
+    <Folder Include="Noose Experiments\gui\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
