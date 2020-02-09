@@ -29,6 +29,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Noose Experiments\module2.py">
+    <Compile Include="Noose Experiments\classfile.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Andi\peterhure.py">
@@ -37,7 +38,16 @@
     <Compile Include="Andi\movement_anfang.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Noose Experiments\dumpfile.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Noose Experiments\module1.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Noose Experiments\frigginmovestuff.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Noose Experiments\GameFunctions.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Prot_1\classes.py" />
@@ -47,6 +57,7 @@
     <Content Include="10372291_648047575285066_1884809349019088769_n.png" />
     <Content Include="intro_ball.gif" />
     <Content Include="background.png" />
+    <Content Include="Noose Experiments\Spielfigur.png" />
     <Content Include="red_square.png" />
     <Content Include="Spielfigur.png" />
   </ItemGroup>
