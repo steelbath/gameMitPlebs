@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>242c130f-426c-44b1-9da7-269527289382</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>Andi\Prot_1\prototype_1.py</StartupFile>
+    <StartupFile>Andi\Prot_1\frigginmovestuff.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -28,10 +28,9 @@
     <Compile Include="Andi\prototype_0.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Andi\Prot_1\classfile.py" />
     <Compile Include="Andi\Prot_1\frigginmovestuff.py" />
     <Compile Include="Andi\Prot_1\GameFunctions.py" />
-    <Compile Include="Noose Experiments\classfile.py">
+    <Compile Include="Andi\Prot_1\classfile.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Andi\peterhure.py">
@@ -40,6 +39,7 @@
     <Compile Include="Andi\movement_anfang.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Noose Experiments\classfile.py" />
     <Compile Include="Noose Experiments\dumpfile.py">
       <SubType>Code</SubType>
     </Compile>

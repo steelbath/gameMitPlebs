@@ -2,6 +2,7 @@ import numpy as np
 import pygame as pg
 from classes import * 
 from classfile import *
+import GameFunctions as gf
 
 
 Clock = pg.time.Clock()
@@ -46,7 +47,7 @@ def main():
     
     #getting the Player object
     Player_0 = Player(player, 5, screen, background) 
-    
+    Player1 = Player(screen, pg.image.load("Spielfigur.png").convert(), (500,500),(0,0))
 
     while running:
         
@@ -84,7 +85,10 @@ def main():
        
 
         #blit the players position and the movement
-        Player_0.move(pg.key.get_pressed())
+        gf.check_events(Player1)
+        Player1.checkKeys()
+        Player1.update()
+        gf.update_screen(GS, screen, Player1)
         
         #blit the mobs
         for m in mobs:   
