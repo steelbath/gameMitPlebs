@@ -40,6 +40,8 @@
     <Compile Include="Noose Experiments\module1.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Prot_1\classes.py" />
+    <Compile Include="Prot_1\prototype_1.py" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="10372291_648047575285066_1884809349019088769_n.png" />
@@ -50,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Andi\" />
+    <Folder Include="Prot_1\" />
     <Folder Include="Noose Experiments\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
