@@ -7,7 +7,6 @@ def check_events(P1):
         if event.type==pg.QUIT:
             sys.exit()
         
-        AccelMoveValue = 0.1
 
         if event.type == pg.KEYDOWN:
             if event.key == pg.K_UP:

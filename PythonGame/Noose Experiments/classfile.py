@@ -14,8 +14,8 @@ class Creature():
         self.image = image
         self.rect = self.image.get_rect()
         #position and movement
-        self.pos=startpos
-        self.speed = speed
+        self.pos=list(startpos)
+        self.speed = list(speed)
         self.maxspeed = 2
         self.rect.centerx = startpos[0]
         self.rect.centery = startpos[1]
@@ -45,8 +45,8 @@ class Creature():
 
 class Player(Creature):
     #MaxWalkSpeed
-    MWS=2
-    ACCEL=0.1
+    MWS=3.5
+    ACCEL=3.4
     def __init__(self, *args):
         #up left down right
         self.pressedkeys = [False]*4
