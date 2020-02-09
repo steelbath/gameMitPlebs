@@ -1,7 +1,7 @@
 
 import pygame
 
-from gui.classes import GUI, Button, Rect
+from gui.classes import GUI, Button, Rect, Text
 from utility.classes import Color, Position
 
 
@@ -17,9 +17,13 @@ def main():
     def clickered():
         print("Clicked!")
 
+    text_options = {
+        "horizontal_align": Text.ALIGN_RIGHT,
+        "vertical_align": Text.ALIGN_TOP,
+    }
     test_button = Button(
         text="test", on_click=clickered, position=Position(80, 80),
-        shape=Rect(40, 20), color=Color.white
+        shape=Rect(80, 40), color=Color.white, text_options=text_options
     )
 
     gui_manager.add_element(test_button)

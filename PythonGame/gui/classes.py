@@ -35,7 +35,7 @@ class GUI(object):
             elem.draw()
 
         # Refresh pygame display after drawing all GUI elements
-        pygame.display.update()
+        pg.display.update()
 
     def add_element(self, element):
         # Take also the position in the list, so we can use blits() instead
@@ -56,9 +56,17 @@ class GUI(object):
 class Button(InteractiveElement):
     interactive = True
 
-    def __init__(self, text: str, *args, **kwargs):
-        self.text = text
+    def __init__(self, text: [Text, str], text_options: dict = None, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
+        if isinstance(text, str):
+            options = text_options or dict()
+            text = Text(text, kwargs.get("position"), Font(), container=self, **options)
+        self.text = text
+
+    def draw(self):
+        super().draw()
+        self.text.draw()
         
 
 class Rect(Shape):
