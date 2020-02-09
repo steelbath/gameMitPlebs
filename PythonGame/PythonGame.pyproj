@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>242c130f-426c-44b1-9da7-269527289382</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>Prot_1\prototype_1.py</StartupFile>
+    <StartupFile>Andi\Prot_1\prototype_1.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -49,8 +49,8 @@
     <Compile Include="Noose Experiments\GameFunctions.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Prot_1\classes.py" />
-    <Compile Include="Prot_1\prototype_1.py" />
+    <Compile Include="Andi\Prot_1\classes.py" />
+    <Compile Include="Andi\Prot_1\prototype_1.py" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="10372291_648047575285066_1884809349019088769_n.png" />
@@ -62,7 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Andi\" />
-    <Folder Include="Prot_1\" />
+    <Folder Include="Andi\Prot_1\" />
     <Folder Include="Noose Experiments\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
