@@ -49,6 +49,7 @@ class Player(Creature):
     ACCEL=3.4
     def __init__(self, *args):
         #up left down right
+        self.Movevec=
         self.pressedkeys = [False]*4
         super().__init__(*args)
        
