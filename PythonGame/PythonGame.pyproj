@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>242c130f-426c-44b1-9da7-269527289382</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>Noose Experiments\frigginmovestuff.py</StartupFile>
+    <StartupFile>Prot_1\prototype_1.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -21,7 +21,20 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Andi\Beispielsachen.py" />
+    <Compile Include="Andi\mobs.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Andi\prototype_0.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Noose Experiments\classfile.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Andi\peterhure.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Andi\movement_anfang.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Noose Experiments\dumpfile.py">
@@ -36,15 +49,20 @@
     <Compile Include="Noose Experiments\GameFunctions.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Prot_1\classes.py" />
+    <Compile Include="Prot_1\prototype_1.py" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="10372291_648047575285066_1884809349019088769_n.png" />
     <Content Include="intro_ball.gif" />
     <Content Include="background.png" />
+    <Content Include="Noose Experiments\Spielfigur.png" />
     <Content Include="red_square.png" />
     <Content Include="Spielfigur.png" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Andi\" />
+    <Folder Include="Prot_1\" />
     <Folder Include="Noose Experiments\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
