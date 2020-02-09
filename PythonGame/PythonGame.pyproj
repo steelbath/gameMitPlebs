@@ -28,6 +28,7 @@
     <Compile Include="Andi\prototype_0.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Andi\Prot_1\classfile.py" />
     <Compile Include="Noose Experiments\classfile.py">
       <SubType>Code</SubType>
     </Compile>

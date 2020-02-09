@@ -1,4 +1,5 @@
 import pygame as pg
+import GameFunctions as gf
 
 class GameSettings():
 
@@ -46,61 +47,33 @@ class Creature():
 class Player(Creature):
     #MaxWalkSpeed
     MWS=3.5
-    ACCEL=3.4
+    ACCEL=0.15
     def __init__(self, *args):
         #up left down right
-        self.pressedkeys = [False]*4
+        self.direction = [0, 0]
         super().__init__(*args)
-       
-    def update(self):
-        #key handlings
-        if self.pressedkeys[0] == True:       
-            if self.speed[1] > self.MWS*-1:
-                self.speed[1] -= self.ACCEL
-        elif self.speed[1] < 0:
-            if self.speed[1] > self.ACCEL*-1:
-                self.speed[1] = 0;
-            else: self.speed[1] += self.ACCEL
-        if self.pressedkeys[1] == True:       
-            if self.speed[0] > self.MWS*-1:
-                self.speed[0] -= self.ACCEL
-        elif self.speed[0] < 0 :
-            if self.speed[0] > self.ACCEL*-1:
-                self.speed[0] = 0;
-            else: self.speed[0] += self.ACCEL
-        if self.pressedkeys[2] == True:       
-            if self.speed[1] < self.MWS:
-                self.speed[1] += self.ACCEL
-        elif self.speed[1] > 0 :
-            if self.speed[1] < self.ACCEL:
-                self.speed[1] = 0;
-            else: self.speed[1] -= self.ACCEL
-        if self.pressedkeys[3] == True:       
-            if self.speed[0] < self.MWS:
-                self.speed[0] += self.ACCEL
-        elif self.speed[0] > 0 :
-            if self.speed[0] < self.ACCEL*-1:
-                self.speed[0] = 0;
-            else:self.speed[0] -= self.ACCEL
 
-        #moving
-        if self.speed != [0,0]:
-            self.pos[0]+=self.speed[0]
-            self.pos[1]+=self.speed[1]
-            self.rect.centerx = int(self.pos[0])
-            self.rect.centery = int(self.pos[1])
-            if self.rect.centerx > 1024:
-               self.rect.centerx = 0
-               self.pos[0] = 0
-            elif self.rect.centerx <0:
-                self.rect.centerx = 1024
-                self.pos[0] = 1024
-            elif self.rect.centery > 768:
-                self.rect.centery = 0
-                self.pos[1] = 0
-            elif self.rect.centery < 0:
-                self.rect.centery = 768
-                self.pos[1] = 768
+    def checkKeys(self):
+# Check movement input
+                
+        # Apply drag and direction
+        for i in [0,1]:
+            if not self.direction[i] and self.speed[i]:
+                # direction is zero but we still have speed
+                if self.speed[i] < 0:
+                    self.speed[i] += self.ACCEL
+                    if self.speed[i] > 0:
+                        self.speed[i] = 0
+                else:
+                    self.speed[i] -= self.ACCEL
+                    if self.speed[i] < 0:
+                        self.speed[i] = 0
+            elif self.direction[i] and abs(self.speed[i]) < self.MWS:
+                #we have input and not max walk speed reached
+                oppositemod=1
+                if not gf.csign(self.speed[i], self.direction[i]) and abs(self.speed[i]) > self.ACCEL:oppositemod=2
+                self.speed[i] += oppositemod*self.ACCEL*self.direction[i]
+                print(oppositemod)
             
 
    

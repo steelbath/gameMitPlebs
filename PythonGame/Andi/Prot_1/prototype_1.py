@@ -3,6 +3,7 @@ import pygame as pg
 from classes import * 
 
 
+
 Clock = pg.time.Clock()
 
 #saving mobs as rectangles in mobs_rect and the mobs object in mobs
