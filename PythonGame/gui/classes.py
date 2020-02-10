@@ -1,6 +1,7 @@
 
 import pygame as pg
 from gui.base_classes import *
+from utility.input import Input
 
 
 class GUI(object):
@@ -17,7 +18,24 @@ class GUI(object):
         self.background_image = None
         self.background_color = None
 
+    def _handle_input(self):
+        pos = Input.mouse_pos
+
+        for i in range(len(self._layouts) -1, -1, -1):
+            # Layout does similar input handling for its elements as this
+            if self._layouts[i].check_hit(pos):
+                return self._layouts[i].update()
+            self._layouts[i].blur()
+
+        for i in range(len(self._elements) -1, -1, -1):
+            if self._elements[i].check_hit(pos):
+                return self._elements[i].update()
+            self._elements[i].blur()
+
     def update(self):
+        # Get user input and pass it onto top-most element
+        self._handle_input()
+
         # Draw background first
         if self.background_image:
             GUI_STATIC.active_screen.blit(self.background_image)
@@ -28,11 +46,13 @@ class GUI(object):
             self.background_color = Color.black
             GUI_STATIC.active_screen.fill(self.background_color.as_tuple)
 
-        # TODO: Handle input here perhaps?
-
         # Then draw all the elements
         for elem in self._elements:
             elem.draw()
+
+        # Then draw all the layouts
+        for layout in self._layouts:
+            layout.draw()
 
         # Refresh pygame display after drawing all GUI elements
         pg.display.update()
@@ -65,6 +85,32 @@ class Button(InteractiveElement):
     def draw(self):
         super().draw()
         self.text.draw()
+
+    def update(self):
+        # Handle mouse down on this element
+        # TODO: No use for it currently
+
+        # Handle mouse held on this element
+        if Input.mouse_held(pg.BUTTON_LEFT):
+            if self.shape._use_color_only:
+                self.shape.color = self.shape.dark_color
+        elif not any(Input.mouse_btn_held):
+            if self.shape._use_color_only:
+                self.shape.color = self.shape.light_color
+
+        # Handle mouse up on this element
+        if Input.mouse_up(pg.BUTTON_LEFT):
+            self.on_click()
+
+            if self.shape._use_color_only:
+                self.shape.color = self.shape.default_color
+
+    def blur(self):
+        """Internally called, when pointer is not on top of element"""
+
+        # Set color back to default
+        if self.shape._use_color_only:
+            self.shape.color = self.shape.default_color
         
 
 class Rect(Shape):
@@ -80,19 +126,18 @@ class Rect(Shape):
         return self.height
 
     def check_hit(self, normalized_pos: Position):
-        """Checks that position normalized to center of shape is within
+        """Checks that position normalized to corner of shape is within
             boundaries of this rectangle
         """
         x, y = normalized_pos.as_tuple
-        horizontal_align = vertical_align = False
 
-        if x > -self.width / 2 and x < self.width / 2:
-            horizontal_align = True
-        if y > -self.height / 2 and y < self.height / 2:
-            vertical_align = True
+        if not x > 0 or not x < self.width:
+            return False
+        if not y > 0 or not y < self.height:
+            return False
 
-        # Are both X and Y aligned within the boundaries of this rectangle
-        return horizontal_align and vertical_align
+        # Both X and Y are aligned within the boundaries of this rectangle
+        return True
 
     def draw(self):
         screen = GUI_STATIC.active_screen

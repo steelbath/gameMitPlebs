@@ -42,6 +42,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="utility\classes.py" />
+    <Compile Include="utility\input.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="utility\__init__.py" />
     <Compile Include="Noose Experiments\module2.py">
       <SubType>Code</SubType>

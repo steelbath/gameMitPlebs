@@ -105,6 +105,9 @@ class Element(object):
     def _load_image(self, name):
         return pg.image.load(name).convert()
 
+    def check_hit(self, pos: Position):
+        return False
+
 
 class InteractiveElement(Element):
     """Base class for interactive GUI elements"""
@@ -119,6 +122,17 @@ class InteractiveElement(Element):
 
         def click(self):
             self.on_click()
+
+    def check_hit(self, pos: Position):
+        return self.shape.check_hit(pos.normalize_to(self.position))
+
+    def update(self):
+        """Called, when pointer is on top of elements shape"""
+        raise NotImplementedError()
+
+    def blur(self):
+        """Called, when pointer is not on top of elements shape"""
+        raise NotImplementedError()
 
 
 class InputElement(InteractiveElement):
@@ -141,6 +155,9 @@ class Shape(object):
         self.image = image
 
     def set_color(self, color):
+        self.dark_color = color.clone().darken()
+        self.light_color = color.clone().lighten()
+        self.default_color = color.clone()
         self.color = color
         self._use_color_only = True
 

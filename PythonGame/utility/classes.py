@@ -76,6 +76,10 @@ class Position(object, metaclass=PositionMeta):
     def as_tuple(self):
         return (self.x, self.y)
 
+    # Override how this object is printed out
+    def __str__(self):
+        return "Position (%s, %s)" % (self.x, self.y)
+
 
 class ColorMeta(type):
     """Meta class for color to allow quick hand colors
@@ -84,6 +88,18 @@ class ColorMeta(type):
     @property
     def white(cls) -> 'Color':
         return cls(255, 255, 255)
+
+    @property
+    def light_grey(cls) -> 'Color':
+        return cls(190, 190, 190)
+
+    @property
+    def grey(cls) -> 'Color':
+        return cls(127, 127, 127)
+
+    @property
+    def dark_grey(cls) -> 'Color':
+        return cls(65, 65, 65)
 
     @property
     def black(cls) -> 'Color':
@@ -108,6 +124,35 @@ class Color(object, metaclass=ColorMeta):
         self.g = g
         self.b = b
         self.a = a
+
+    def clone(self):
+        return Color(self.r, self.g, self.b, self.a)
+
+    def darken(self):
+        # FIXME: Stupid implementation
+        self.r -= 40
+        if self.r < 0:
+            self.r = 0
+        self.g -= 40
+        if self.g < 0:
+            self.g = 0
+        self.b -= 40
+        if self.b < 0:
+            self.b = 0
+        return self
+
+    def lighten(self):
+        # FIXME: Stupid implementation
+        self.r += 40
+        if self.r > 255:
+            self.r = 255
+        self.g += 40
+        if self.g > 255:
+            self.g = 255
+        self.b += 40
+        if self.b > 255:
+            self.b = 255
+        return self
 
     @property
     def as_tuple(self) -> tuple:
