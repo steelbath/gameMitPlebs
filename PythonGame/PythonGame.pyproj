@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>242c130f-426c-44b1-9da7-269527289382</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>Main.py</StartupFile>
+    <StartupFile>Andi\Prot_1\prototype_1.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>

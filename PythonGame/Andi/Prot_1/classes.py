@@ -1,6 +1,6 @@
 import numpy as np
 import pygame as pg
-import Gamefunctions as gf
+import GameFunctions as gf
 
 
 class Enemies:
@@ -145,10 +145,11 @@ class Player(Creature):
                     self.speed[i] -= self.ACCEL
                     if self.speed[i] < 0:
                         self.speed[i] = 0
-            elif self.direction[i] and abs(self.speed[i]) < self.MWS:
+            elif self.direction[i] and (abs(self.speed[i]) < self.MWS or not gf.csign(self.direction[i],self.speed[i])):
                 #we have input and not max walk speed reached
-                oppositemod=1
-                if not gf.csign(self.speed[i], self.direction[i]) and abs(self.speed[i]) > self.ACCEL:oppositemod=2
-                self.speed[i] += oppositemod*self.ACCEL*self.direction[i]
-                print(oppositemod)
+                if gf.csign(self.direction[i],self.speed[i]):
+                    self.speed[i] += self.ACCEL*self.direction[i]
+                    if abs(self.speed[i])>self.MWS:self.speed[i]=self.MWS*self.direction[i]
+                else:
+                    self.speed[i] += 2*self.ACCEL*self.direction[i]
            

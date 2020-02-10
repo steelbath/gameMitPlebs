@@ -1,7 +1,6 @@
 import numpy as np
 import pygame as pg
 from classes import * 
-from classfile import *
 import GameFunctions as gf
 import sys
 
