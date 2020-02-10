@@ -10,7 +10,7 @@ class GameSettings():
         self.bg_color = (50,50,50)
 
 class Creature():
-    def __init__(self, screen, image, startpos:list=[0,0],speed:list=[0.0]):
+    def __init__(self, screen, image, startpos:list=[0,0],speed:list=[0,0]):
         self.screen = screen
         self.image = image
         self.rect = self.image.get_rect()
@@ -68,12 +68,13 @@ class Player(Creature):
                     self.speed[i] -= self.ACCEL
                     if self.speed[i] < 0:
                         self.speed[i] = 0
-            elif self.direction[i] and (abs(self.speed[i]) < self.MWS or not gf.csign(self.direction[i],self.speed[i])):
+            elif self.direction[i] and abs(self.speed[i]) < self.MWS:
                 #we have input and not max walk speed reached
-                if gf.csign(self.direction[i],self.speed[i]):
-                    self.speed[i] += self.ACCEL*self.direction[i]
-                else:
-                    self.speed[i] += 2*self.ACCEL*self.direction[i]
+                oppositemod=1
+                if not gf.csign(self.speed[i], self.direction[i]) and abs(self.speed[i]) > self.ACCEL:oppositemod=2
+                self.speed[i] += oppositemod*self.ACCEL*self.direction[i]
+                if abs(self.speed[i])>MWS:self.speed[i]=MWS+self.direction[i]
+                print(oppositemod)
             
 
    
