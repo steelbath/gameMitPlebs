@@ -45,13 +45,11 @@ def main():
     Player1 = Player(screen, pg.image.load("Spielfigur.png").convert(), (500,500),(0,0))
     
     while running:
-        running = gf.check_events(Player1)[2]
-        gf.check_events(Player1)
+        
+        check_events_return = gf.check_events(Player1)
         screen.blit(background, (0,0))
         #adding (-5) to the y-Coordinate the projectiles to "move" them 
-        projectiles = gf.check_events(Player1)[0]
-        event_number = int(gf.check_events(Player1)[1])
-        print(projectiles)
+        projectiles, event_number, running = check_events_return[0], check_events_return[1], check_events_return[2]
         
         
         for m in np.arange(event_number+1):
@@ -65,7 +63,10 @@ def main():
                 projectiles[m]=np.zeros((2))
         projectiles -= np.array([0,5])   
             
-     
+        #blit the mobs
+        for m in mobs:   
+            m.move()
+            screen.blit(m.image,m.pos)
        
 
         #blit the players position and the movement
@@ -73,13 +74,8 @@ def main():
         Player1.checkKeys()
         Player1.update()
         gf.update_screen(GS, background, Player1)
-        
-        #blit the mobs
-        for m in mobs:   
-            m.move()
-            screen.blit(m.image,m.pos)
-        
-        pg.display.update()
+       
+     
         Clock.tick(100)
 
 
