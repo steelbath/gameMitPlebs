@@ -24,7 +24,7 @@ def mobs_create():
 
 
 def main():
-    
+    pg.init()
     GS = GameSettings()
 
     #getting the mobs objects from the function
