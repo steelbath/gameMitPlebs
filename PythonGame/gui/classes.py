@@ -1,72 +1,159 @@
 
 import pygame as pg
-from utility.classes import Position, Color
-
-from types import FunctionType as Function
-
-
-class Element(object):
-    """Base class for GUI elements"""
-    interactive = False
-
-    def __init__(self, position: Position, color: Color = None, image_name: str = None):
-        if not color and not image_name:
-            raise AttributeError("You must give color or image_name when declaring %s"
-                                 % self.__name__)
-        self.image = self._load_image(image_name)
-
-    def draw(self):
-        self.image.blit()
-
-    def _load_image(self, name):
-        return pg.image.load(name).convert()
+from gui.base_classes import *
+from utility.input import Input
 
 
-class InteractiveElement(Element):
-    """Base class for interactive GUI elements"""
-    def __init__(self, on_click: Function, image_on_hover: str = None,
-                 image_on_press: str = None, *args, **kwargs):
-        self.on_click = on_click
-        self.image_on_hover = self._load_image(image_on_hover)
-        self.image_on_press = self._load_image(image_on_press)
-        super().__init__(*args, **kwargs)
+class GUI(object):
+    """Manager class for GUI elements"""
+    _elements = list()  # List of all gui elements on screen
 
-        def click(self):
-            self.on_click()
+    # List of layouts containing their own elements, needed for 
+    # tracking element order when changing selected interactive GUI element
+    # via arrows or tab
+    _layouts = list()  
 
+    def __init__(self, screen):
+        GUI_STATIC.active_screen = screen
+        self.background_image = None
+        self.background_color = None
 
-class InputElement(InteractiveElement):
-    """Base class for GUI input elements"""
-    def __init__(self, on_change: Function = None, *args, **kwargs):
-        self.input = None
-        super().__init__(*args, **kwargs)
+    def _handle_input(self):
+        pos = Input.mouse_pos
 
-    def get_input(self):
-        return self.input
+        for i in range(len(self._layouts) -1, -1, -1):
+            # Layout does similar input handling for its elements as this
+            if self._layouts[i].check_hit(pos):
+                return self._layouts[i].update()
+            self._layouts[i].blur()
 
+        for i in range(len(self._elements) -1, -1, -1):
+            if self._elements[i].check_hit(pos):
+                return self._elements[i].update()
+            self._elements[i].blur()
+
+    def update(self):
+        # Get user input and pass it onto top-most element
+        self._handle_input()
+
+        # Draw background first
+        if self.background_image:
+            GUI_STATIC.active_screen.blit(self.background_image)
+        elif self.background_color:
+            GUI_STATIC.active_screen.fill(self.background_color.as_tuple)
+        else:
+            # Default to black background if None was set before
+            self.background_color = Color.black
+            GUI_STATIC.active_screen.fill(self.background_color.as_tuple)
+
+        # Then draw all the elements
+        for elem in self._elements:
+            elem.draw()
+
+        # Then draw all the layouts
+        for layout in self._layouts:
+            layout.draw()
+
+        # Refresh pygame display after drawing all GUI elements
+        pg.display.update()
+
+    def add_element(self, element):
+        self._elements.append(element)
+
+    def add_layout(self, layout):
+        self._layouts.append(layout)
+
+    def set_background_color(self, color: Color):
+        self.background_color = color
+
+    def set_background_image(self, image_name: str):
+        image = pg.image.load(image_name).convert()
+        self.background_image = image
+        
 
 class Button(InteractiveElement):
     interactive = True
 
-    def __init__(self, text: str, on_click: Function, *args, **kwargs):
-        self.text = text
-        self.on_click = text
+    def __init__(self, text: [Text, str], text_options: dict = None, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
+        if isinstance(text, str):
+            options = text_options or dict()
+            text = Text(text, kwargs.get("position"), Font(), container=self, **options)
+        self.text = text
+
+    def draw(self):
+        super().draw()
+        self.text.draw()
+
+    def update(self):
+        # Handle mouse down on this element
+        # TODO: No use for it currently
+
+        # Handle mouse held on this element
+        if Input.mouse_held(pg.BUTTON_LEFT):
+            if self.shape._use_color_only:
+                self.shape.color = self.shape.dark_color
+        elif not any(Input.mouse_btn_held):
+            if self.shape._use_color_only:
+                self.shape.color = self.shape.light_color
+
+        # Handle mouse up on this element
+        if Input.mouse_up(pg.BUTTON_LEFT):
+            self.on_click()
+
+            if self.shape._use_color_only:
+                self.shape.color = self.shape.default_color
+
+    def blur(self):
+        """Internally called, when pointer is not on top of element"""
+
+        # Set color back to default
+        if self.shape._use_color_only:
+            self.shape.color = self.shape.default_color
         
 
-class Shape(object):
-    def click_hit(self, x: int, y: int):
-        """Test if x and y are inside this shape and return True or False"""
-        raise NotImplementedError(
-            "%s does not implement `click_hit` function" % self.__name__
-        )
-
-
-class Rectangle(Shape):
+class Rect(Shape):
     def __init__(self, width: int, height: int, *args, **kwargs):
+        self.width = width
+        self.height = height
         super().__init__(*args, **kwargs)
+
+    def get_width(self):
+        return self.width
+
+    def get_height(self):
+        return self.height
+
+    def check_hit(self, normalized_pos: Position):
+        """Checks that position normalized to corner of shape is within
+            boundaries of this rectangle
+        """
+        x, y = normalized_pos.as_tuple
+
+        if not x > 0 or not x < self.width:
+            return False
+        if not y > 0 or not y < self.height:
+            return False
+
+        # Both X and Y are aligned within the boundaries of this rectangle
+        return True
+
+    def draw(self):
+        screen = GUI_STATIC.active_screen
+        if self._use_color_only:
+            screen.fill(self.color.as_tuple, self.element.as_rect)
+        else:
+            screen.blit(self.image, self.element.position.as_rect)
 
 
 class Circle(Shape):
     def __init__(self, diameter: int, *args, **kwargs):
+        self.diameter = diameter
         super().__init__(*args, **kwargs)
+
+    def get_width(self):
+        return self.diameter
+
+    def get_height(self):
+        return self.diameter

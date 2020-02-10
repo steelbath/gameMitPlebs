@@ -1,26 +1,84 @@
 
+import math
 
-class Position(object):
+
+class PositionMeta(type):
+    """Meta class for color to allow quick hand colors
+        such as `Position.zero` returning zero position
+    """
+    @property
+    def zero(cls) -> 'Position':
+        return cls(0, 0)
+
+
+class Position(object, metaclass=PositionMeta):
     """Wrapper for two-dimensional positions with some extra functionality"""
     def __init__(self, x: int, y: int):
         self.x = x
         self.y = y
 
-    def get_angle_to(self, other_pos: Position) -> float:
-        pass
+    # Operator overloading, to allow basic arithmetic operations with positions
+    def __iadd__(self, other):
+        self.x += other.x
+        self.y += other.y
+        return self
+
+    def __isub__(self, other):
+        self.x -= other.x
+        self.y -= other.y
+        return self
+
+    def __imul__(self, other):
+        self.x *= other.x
+        self.y *= other.y
+        return self
+
+    def __idiv__(self, other):
+        self.x /= other.x
+        self.y /= other.y
+        return self
+
+    def __add__(self, other):
+        return Position(self.x + other.x, self.y + other.y)
+
+    def __sub__(self, other):
+        return Position(self.x - other.x, self.y - other.y)
+
+    def __mul__(self, other):
+        return Position(self.x * other.x, self.y * other.y)
+
+    def __truediv__(self, other):
+        return Position(self.x / other.x, self.y / other.y)
+    
+    def get_coords_to_distance_and_angle(self, distance: float, angle: float) -> 'Position':
+        x = math.sin(math.radians(angle)) * distance
+        y = math.cos(math.radians(angle)) * distance
+        return self + Position(x, y)
+
+    def get_angle_to(self, other_pos: 'Position') -> float:
+        """Return angle in degrees, from point A to B"""
+        raise NotImplementedError("TODO: Unfinished feature")
 
     def get_angle_to_coords(self, x: int, y: int) -> float:
         return self.get_angle_to(Position(x, y))
 
-    def get_distance_to(self, other_pos: Position) -> float:
-        pass
+    def get_distance_to(self, other_pos: 'Position') -> float:
+        """Return distance from point A to B"""
+        return math.sqrt(self.x * self.x + self.y * self.y)
 
     def get_distance_to_coords(self, x: int, y: int) -> float:
         return self.get_distance_to(Position(x, y))
 
-    @classmethod
-    def zero(cls) -> Position:
-        return cls(0, 0)
+    def normalize_to(self, other_pos) -> 'Position':
+        return self - other_pos
+
+    @property
+    def as_tuple(self):
+        return (self.x, self.y)
+
+    # Override how this object is printed out
+    def __str__(self):
+        return "Position (%s, %s)" % (self.x, self.y)
 
 
 class ColorMeta(type):
@@ -28,23 +86,35 @@ class ColorMeta(type):
         such as `Color.white` returning white
     """
     @property
-    def white(cls) -> Color:
+    def white(cls) -> 'Color':
         return cls(255, 255, 255)
 
     @property
-    def black(cls) -> Color:
+    def light_grey(cls) -> 'Color':
+        return cls(190, 190, 190)
+
+    @property
+    def grey(cls) -> 'Color':
+        return cls(127, 127, 127)
+
+    @property
+    def dark_grey(cls) -> 'Color':
+        return cls(65, 65, 65)
+
+    @property
+    def black(cls) -> 'Color':
         return cls(0, 0, 0)
 
     @property
-    def red(cls) -> Color:
+    def red(cls) -> 'Color':
         return cls(255, 0, 0)
 
     @property
-    def green(cls) -> Color:
+    def green(cls) -> 'Color':
         return cls(0, 255, 0)
 
     @property
-    def blue(cls) -> Color:
+    def blue(cls) -> 'Color':
         return cls(0, 0, 255)
 
 
@@ -55,10 +125,41 @@ class Color(object, metaclass=ColorMeta):
         self.b = b
         self.a = a
 
-    def get_as_tuple(self) -> tuple:
+    def clone(self):
+        return Color(self.r, self.g, self.b, self.a)
+
+    def darken(self):
+        # FIXME: Stupid implementation
+        self.r -= 40
+        if self.r < 0:
+            self.r = 0
+        self.g -= 40
+        if self.g < 0:
+            self.g = 0
+        self.b -= 40
+        if self.b < 0:
+            self.b = 0
+        return self
+
+    def lighten(self):
+        # FIXME: Stupid implementation
+        self.r += 40
+        if self.r > 255:
+            self.r = 255
+        self.g += 40
+        if self.g > 255:
+            self.g = 255
+        self.b += 40
+        if self.b > 255:
+            self.b = 255
+        return self
+
+    @property
+    def as_tuple(self) -> tuple:
         return (self.r, self.g, self.b, self.a)
 
-    def get_as_dict(self) -> dict:
+    @property
+    def as_dict(self) -> dict:
         return {
             "red": self.r,
             "green": self.g,

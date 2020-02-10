@@ -25,7 +25,7 @@ def main():
     pygame.display.set_caption("minimal program")
      
     # create a surface on screen that has the size of 240 x 180
-    screen = pygame.display.set_mode((1080,920))n
+    screen = pygame.display.set_mode((1080,920))
     screen.fill((r,b,g))
      
     # define a variable to control the main loop
