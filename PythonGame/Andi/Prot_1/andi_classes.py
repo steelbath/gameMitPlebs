@@ -4,78 +4,34 @@ import GameFunctions as gf
 
 
 class Enemies:
-    def __init__(self, image, speed_x, speed_y, x, y):
-        self.x = x
-        self.y = y
+
+    def __init__(self, image, speed:list=[0,0], start_pos:list=[0,0]):
         self.image = image
-        self.speed_x = speed_x
-        self.speed_y = speed_y
-        self.pos = image.get_rect().move(self.x, self.y)
+        self.rect = self.image.get_rect()
+        self.pos = np.array(list(start_pos))
+        self.speed = np.array(list(speed))
+        self.rect.centerx = start_pos[0]
+        self.rect.centery = start_pos[1]
 
     def move(self):
-        self.pos = self.pos.move(self.speed_x, self.speed_y)
-        if self.pos.right > 1280:
-            self.speed_x = np.random.randint(-10,-1)
-        if self.pos.left < 0:
-            self.speed_x = np.random.randint(1,10)
-        if self.pos.top < 0:
-            self.speed_y = np.random.randint(1,10)
-        if self.pos.bottom > 720:
-            self. speed_y = np.random.randint(-10,-1)
-class Playerz:
-    
-    def __init__(self, image, move_speed, screen, background):
+        self.pos[0]+=self.speed[0]
+        self.pos[1]+=self.speed[1]
+        self.rect.centerx = int(self.pos[0])
+        self.rect.centery = int(self.pos[1])
+        if self.rect.centerx > 1280:
+            self.speed[0] = np.random.random_sample()*(-10)
+        if self.rect.centerx < 0:
+            self.speed[0] = np.random.random_sample()*10
+        if self.rect.centery < 0:
+            self.speed[1] = np.random.random_sample()*10
+        if self.rect.centery > 720:
+            self.speed[1] = np.random.random_sample()*(-10)
+        return self.rect
         
-        self.image = image
-        self.move_speed = move_speed
-        self.screen = screen
-        self.background = background
-        self.pos = image.get_rect().move(640, 360)
+    def collision(self):
+        self.speed[0] = -self.speed[0]
+        self.speed[1] = -self.speed[1]
         
-        
-
-        self.x = 0
-        self.y = 0
-       
-
-    def move(self, pressed):
-        
-        self.screen.blit(self.image, self.pos)
-        self.pressed = pressed
-
-        
-        if self.pressed[pg.K_LEFT]:
-    
-            self.x = -self.move_speed
-            self.pos = self.pos.move(self.x, self.y)
-            self.screen.blit(self.background, (0,0))
-            self.screen.blit(self.image, self.pos)
-            self.x = 0
-        
-        if self.pressed[pg.K_RIGHT]:
-            
-            self.x = self.move_speed
-            self.pos = self.pos.move(self.x, self.y)
-            self.screen.blit(self.background, (0,0))
-            self.screen.blit(self.image, self.pos)
-            self.x = 0
-        
-        if self.pressed[pg.K_UP]:
-            
-            self.y = -self.move_speed
-            self.pos = self.pos.move(self.x, self.y)
-            self.screen.blit(self.background, (0,0))
-            self.screen.blit(self.image, self.pos)
-            self.y = 0
-        
-        if self.pressed[pg.K_DOWN]:
-            
-            self.y = self.move_speed
-            self.pos = self.pos.move(self.x, self.y)
-            self.screen.blit(self.background, (0,0))
-            self.screen.blit(self.image, self.pos)
-            self.y = 0
-        return self.pos
 
 class GameSettings():
 
@@ -115,6 +71,34 @@ class Creature():
             elif self.rect.centery < 0:
                 self.rect.centery = 768
                 self.pos[1] = 768
+    def update_2(self):
+        if self.speed != [0,0]:
+            self.pos[0]+=self.speed[0]
+            self.pos[1]+=self.speed[1]
+            self.rect.centerx = int(self.pos[0])
+            self.rect.centery = int(self.pos[1])
+            if self.rect.centerx > 1240:
+                self.speed[0] = 0
+            elif self.rect.centerx <0:
+                self.speed[0] = 0
+            elif self.rect.centery > 680:
+                self.speed[1] = 0
+            elif self.rect.centery < 0:
+                self.speed[1] = 0
+    def shoot(self,projectile,projectiles):
+        self.projectile = projectile
+        self.projectiles = projectiles
+        
+        for m in np.arange(100):
+            #only consider the projectiles which are not zero at the x-coordinate to
+            #prevent the zeros to get blitted
+            if self.projectiles[m,0] > 0:
+                self.screen.blit(self.projectile, (self.projectiles[m,0], self.projectiles[m,1]))
+            #delete the projectiles which are actually projectiles (x > 0) and are out of the screen (y < 0)
+            if self.projectiles[m,1] < 0 and self.projectiles[m,0] > 0:
+                self.projectiles[m]=np.zeros((2))
+        self.projectiles -= np.array([0,5])
+        return self.projectiles
     
     def blitme(self):
         self.screen.blit(self.image, self.rect)
@@ -151,5 +135,4 @@ class Player(Creature):
                     self.speed[i] += self.ACCEL*self.direction[i]
                     if abs(self.speed[i])>self.MWS:self.speed[i]=self.MWS*self.direction[i]
                 else:
-                    self.speed[i] += 2*self.ACCEL*self.direction[i]
-           
+                    self.speed[i] += 2*self.ACCEL*self.direction[i]    
