@@ -1,16 +1,17 @@
 import pygame as pg
 import GameFunctions as gf
 
-class GameSettings():
+class GameObject():
 
     def __init__(self):
-        #screen
+        #settings
         self.screen_width = 1024
         self.screen_height = 768
         self.bg_color = (50,50,50)
+        #environmenntal objects
 
 class Creature():
-    def __init__(self, screen, image, startpos:list=[0,0],speed:list=[0,0]):
+    def __init__(self, screen, image, startpos:list=[0,0],speed:list=[0.0]):
         self.screen = screen
         self.image = image
         self.rect = self.image.get_rect()
@@ -68,15 +69,21 @@ class Player(Creature):
                     self.speed[i] -= self.ACCEL
                     if self.speed[i] < 0:
                         self.speed[i] = 0
-            elif self.direction[i] and abs(self.speed[i]) < self.MWS:
+            elif self.direction[i] and (abs(self.speed[i]) < self.MWS or not gf.csign(self.direction[i],self.speed[i])):
                 #we have input and not max walk speed reached
-                oppositemod=1
-                if not gf.csign(self.speed[i], self.direction[i]) and abs(self.speed[i]) > self.ACCEL:oppositemod=2
-                self.speed[i] += oppositemod*self.ACCEL*self.direction[i]
-                if abs(self.speed[i])>MWS:self.speed[i]=MWS+self.direction[i]
-                print(oppositemod)
-            
+                if gf.csign(self.direction[i],self.speed[i]):
+                    self.speed[i] += self.ACCEL*self.direction[i]
+                    if abs(self.speed[i])>self.MWS:self.speed[i]=self.MWS*self.direction[i]
+                else:
+                    self.speed[i] += 2*self.ACCEL*self.direction[i]
 
-   
+    def shoot(self, sdirection, spos):
+            gf.projectiles[gf.pmap[0],0] = spos[0] 
+            gf.projectiles[gf.pmap[0],1] = spos[1] 
+            gf.projectiles[gf.pmap[0],2] = sdirection[0]*3
+            gf.projectiles[gf.pmap[0],3] = sdirection[1]*3
+            gf.pmap[0]+=1
+            if gf.pmap[0] > 90:gf.pmap[0]=0
+
 
 
