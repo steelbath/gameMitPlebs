@@ -54,6 +54,9 @@
     </Compile>
     <Compile Include="Andi\Prot_1\trashfile.py" />
     <Compile Include="Andi\Prot_1\main_andi.py" />
+    <Compile Include="Noose Experiments\GameFunctions.py" />
+    <Compile Include="Noose Experiments\Main.py" />
+    <Compile Include="Noose Experiments\Tutorial2.py" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="intro_ball.gif" />

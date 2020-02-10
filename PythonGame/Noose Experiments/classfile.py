@@ -52,6 +52,7 @@ class Player(Creature):
     def __init__(self, *args):
         #up left down right
         self.direction = [0, 0]
+        self.facing = [0,-1]
         super().__init__(*args)
 
     def checkKeys(self):
@@ -80,8 +81,8 @@ class Player(Creature):
     def shoot(self, sdirection, spos):
             gf.projectiles[gf.pmap[0],0] = spos[0] 
             gf.projectiles[gf.pmap[0],1] = spos[1] 
-            gf.projectiles[gf.pmap[0],2] = sdirection[0]*3
-            gf.projectiles[gf.pmap[0],3] = sdirection[1]*3
+            gf.projectiles[gf.pmap[0],2] = sdirection[0]*8
+            gf.projectiles[gf.pmap[0],3] = sdirection[1]*8
             gf.pmap[0]+=1
             if gf.pmap[0] > 90:gf.pmap[0]=0
 

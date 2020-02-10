@@ -40,7 +40,7 @@ def main():
         projectiles, event_number, running = check_events_return[0], check_events_return[1], check_events_return[2]
         projectiles = Player1.shoot(projectile,projectiles)  
         if not pg.Rect(Player1.rect).collidelist(mobs_list) == -1:
-            running = False
+            running = True
         #blit the players position and the movement
         
         Player1.checkKeys()
