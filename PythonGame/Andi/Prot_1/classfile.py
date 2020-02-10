@@ -1,5 +1,6 @@
 import pygame as pg
 import GameFunctions as gf
+import numpy as np
 
 class GameSettings():
 
@@ -10,7 +11,7 @@ class GameSettings():
         self.bg_color = (50,50,50)
 
 class Creature():
-    def __init__(self, screen, image, startpos:list=[0,0],speed:list=[0.0]):
+    def __init__(self, screen, image, startpos:list=[0,0],speed:list=[0,0]):
         self.screen = screen
         self.image = image
         self.rect = self.image.get_rect()
@@ -51,8 +52,9 @@ class Player(Creature):
     def __init__(self, *args):
         #up left down right
         self.direction = [0, 0]
+        self.projectiles = np.zeros((100,2))
+        self.event_number = -1
         super().__init__(*args)
-
     def checkKeys(self):
 # Check movement input
                 
