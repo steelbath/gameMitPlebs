@@ -72,6 +72,7 @@ class Player(Creature):
                 #we have input and not max walk speed reached
                 if gf.csign(self.direction[i],self.speed[i]):
                     self.speed[i] += self.ACCEL*self.direction[i]
+                    if abs(self.speed[i])>MWS:self.speed[i]=MWS*self.direction[i]
                 else:
                     self.speed[i] += 2*self.ACCEL*self.direction[i]
             
