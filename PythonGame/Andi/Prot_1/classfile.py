@@ -1,5 +1,6 @@
 import pygame as pg
 import GameFunctions as gf
+import numpy as np
 
 class GameSettings():
 
@@ -51,8 +52,9 @@ class Player(Creature):
     def __init__(self, *args):
         #up left down right
         self.direction = [0, 0]
+        self.projectiles = np.zeros((100,2))
+        self.event_number = -1
         super().__init__(*args)
-
     def checkKeys(self):
 # Check movement input
                 
