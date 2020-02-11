@@ -1,14 +1,13 @@
 import pygame as pg
 import GameFunctions as gf
-
-class GameObject():
+import numpy as np
+class GameSettings():
 
     def __init__(self):
-        #settings
+        #screen
         self.screen_width = 1024
         self.screen_height = 768
         self.bg_color = (50,50,50)
-        #environmenntal objects
 
 class Creature():
     def __init__(self, screen, image, startpos:list=[0,0],speed:list=[0.0]):
@@ -54,6 +53,14 @@ class Player(Creature):
         self.direction = [0, 0]
         self.facing = [0,-1]
         super().__init__(*args)
+        #projectile array and last bullet var
+        self.projectiles = np.zeros((100,4),dtype=int)
+        self.lb = 0
+        self.shooting=0
+        self.shoottickcount=0
+        #tweakables
+        self.shootspeed=10
+        self.bulletspeed = 6
 
     def checkKeys(self):
 # Check movement input
@@ -77,14 +84,24 @@ class Player(Creature):
                     if abs(self.speed[i])>self.MWS:self.speed[i]=self.MWS*self.direction[i]
                 else:
                     self.speed[i] += 2*self.ACCEL*self.direction[i]
-
+        #shoot if space pressed
+        if self.shooting:
+            if self.shoottickcount==0:
+                self.shoot(self.facing,self.pos)
+                self.shoottickcount=self.shootspeed
+            else: self.shoottickcount-=1
+        if self.direction[0]:self.facing[0]= self.direction[0]
+        elif self.direction[1]:self.facing[0]=0
+        if self.direction[1]:self.facing[1]= self.direction[1]
+        elif self.direction[0]:self.facing[1]=0
+   
     def shoot(self, sdirection, spos):
-            gf.projectiles[gf.pmap[0],0] = spos[0] 
-            gf.projectiles[gf.pmap[0],1] = spos[1] 
-            gf.projectiles[gf.pmap[0],2] = sdirection[0]*8
-            gf.projectiles[gf.pmap[0],3] = sdirection[1]*8
-            gf.pmap[0]+=1
-            if gf.pmap[0] > 90:gf.pmap[0]=0
-
-
+        i=self.lb
+        self.projectiles[i,0] = spos[0] 
+        self.projectiles[i,1] = spos[1] 
+        self.projectiles[i,2] = sdirection[0]*self.bulletspeed
+        self.projectiles[i,3] = sdirection[1]*self.bulletspeed
+        if not self.lb<99:self.lb=0
+        else: self.lb+=1
+        
 

@@ -7,7 +7,7 @@ class Enemies:
 
     def __init__(self, image, speed:list=[0,0], start_pos:list=[0,0]):
         self.image = image
-        self.rect = self.image.get_rect()
+        self.rect = self.image.get_recta()
         self.pos = np.array(list(start_pos))
         self.speed = np.array(list(speed))
         self.rect.centerx = start_pos[0]
