@@ -41,6 +41,9 @@
     <Compile Include="Andi\Prot_1\mobs_function.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Andi\Prot_1\module1.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="classfile.py" />
     <Compile Include="Noose Experiments\classfile.py" />
     <Compile Include="Noose Experiments\dumpfile.py">

@@ -12,12 +12,16 @@ class Enemies:
         self.speed = np.array(list(speed))
         self.rect.centerx = start_pos[0]
         self.rect.centery = start_pos[1]
+        self.topleft = pg.Rect(self.rect).topleft
+        self.bottomright = pg.Rect(self.rect).bottomright
 
     def move(self):
         self.pos[0]+=self.speed[0]
         self.pos[1]+=self.speed[1]
         self.rect.centerx = int(self.pos[0])
         self.rect.centery = int(self.pos[1])
+        self.topleft = pg.Rect(self.rect).topleft
+        self.bottomright = pg.Rect(self.rect).bottomright
         if self.rect.centerx > 1280:
             self.speed[0] = np.random.random_sample()*(-10)
         if self.rect.centerx < 0:
@@ -27,7 +31,9 @@ class Enemies:
         if self.rect.centery > 720:
             self.speed[1] = np.random.random_sample()*(-10)
         return self.rect
-        
+    
+
+
     def collision(self):
         self.speed[0] = -self.speed[0]
         self.speed[1] = -self.speed[1]
