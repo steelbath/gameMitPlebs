@@ -8,17 +8,18 @@ Clock = pg.time.Clock()
 
 def game():
     pg.init()
-    GS = GameSettings()
-    screen= pg.display.set_mode((GS.screen_width,GS.screen_height))
+    GO = GameObject()
+    screen= pg.display.set_mode((GO.screen_width,GO.screen_height))
     pg.display.set_caption("Shootnshit")
-
+    running = True
     Player1 = Player(screen, pg.image.load("Spielfigur.png").convert(), (500,500),(0,0))
+  
 
-    while True:
+    while running:
         gf.check_events(Player1)
         Player1.checkKeys()
         Player1.update()
-        gf.update_screen(GS, screen, Player1) 
+        gf.update_screen(GO, screen, Player1) 
 
         Clock.tick(120)
 
