@@ -1,10 +1,11 @@
 
 import pygame
-from pygame.time import Clock
 
+from gui.base_classes import GUI_STATIC
 from gui.classes import GUI, Button, Rect, Text
 from utility.classes import Color, Position
-from utility.input import Input
+from utility.input import Input, TextInput
+from utility.timing import Timing
 
 
 def main():
@@ -29,19 +30,23 @@ def main():
     )
 
     gui_manager.add_element(test_button)
+    GUI_STATIC.set_active_gui(gui_manager)
+    GUI_STATIC.listen_text_input = True  # Supposed to only be on, when text input field is active
 
+    Timing.init()
     running = True
-    clock = Clock()
+    received_input = ""
     while running:
-        # DEBUG: Set low framerate for debugging
-        clock.tick_busy_loop(5)
-        Input.refresh_input()
+        Input.refresh_input(GUI_STATIC.listen_text_input)
+        received_input += TextInput.get_input()
+        print(received_input)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
 
-        gui_manager.update()
+        GUI_STATIC.update()
+        Timing.tick()
 
     print("Safely quit the progaram")
 

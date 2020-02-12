@@ -94,7 +94,7 @@ class Button(InteractiveElement):
         if Input.mouse_held(pg.BUTTON_LEFT):
             if self.shape._use_color_only:
                 self.shape.color = self.shape.dark_color
-        elif not any(Input.mouse_btn_held):
+        elif not any(Input._mouse_held):
             if self.shape._use_color_only:
                 self.shape.color = self.shape.light_color
 

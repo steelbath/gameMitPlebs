@@ -10,6 +10,16 @@ from utility.classes import Position, Color
 class GUI_STATIC(object):
     """Holds static global information for GUI"""
     active_screen = None
+    active_gui = None
+    listen_text_input = False
+
+    @classmethod
+    def set_active_gui(cls, gui):
+        cls.active_gui = gui
+
+    @classmethod
+    def update(cls):
+        cls.active_gui.update()
 
 
 class Text(object):
