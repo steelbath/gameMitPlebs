@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>242c130f-426c-44b1-9da7-269527289382</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>Riku\main.py</StartupFile>
+    <StartupFile>menu test.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -38,6 +38,7 @@
     <Compile Include="gui\__init__.py" />
     <Compile Include="gui\layout\classes.py" />
     <Compile Include="gui\layout\__init__.py" />
+    <Compile Include="menu test.py" />
     <Compile Include="Riku\main.py">
       <SubType>Code</SubType>
     </Compile>

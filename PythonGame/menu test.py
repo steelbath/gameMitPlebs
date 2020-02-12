@@ -37,7 +37,7 @@ def main():
         # DEBUG: Set low framerate for debugging
         clock.tick_busy_loop(5)
         Input._refresh_keys()
-        print(Input.keys_held)
+        print(Input.keys_down)
         cpos-=1
         if cpos <= 0: cpos=500
         for event in pygame.event.get():
