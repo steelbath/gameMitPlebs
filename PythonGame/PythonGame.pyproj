@@ -38,7 +38,7 @@
     <Compile Include="Andi\movement_anfang.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Andi\Prot_1\mobs_function.py">
+    <Compile Include="Andi\Prot_1\old_collision.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Andi\Prot_1\module1.py">
