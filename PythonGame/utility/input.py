@@ -1,6 +1,8 @@
 
 import pygame as pg
+from pygame.time import Clock
 from utility.classes import Position
+from utility.timing import Timing
 
 
 class Input(object):
@@ -22,12 +24,34 @@ class Input(object):
         return key in cls._keys_down
 
     @classmethod
+    def any_key_down(cls):
+        return bool(cls._keys_down)
+
+    @classmethod
     def key_held(cls, key):
         return key in cls._keys_held
 
     @classmethod
+    def any_key_held(cls):
+        return bool(cls._keys_down)
+
+    @classmethod
+    def key_pressed(cls, key):
+        # Check for held keys first, as it is most common case
+        return key in cls._keys_held or key in cls._keys_down
+
+    @classmethod
+    def any_key_pressed(cls):
+        # Check for held keys first, as it is most common case
+        return bool(cls._keys_held) or bool(cls._keys_down)
+
+    @classmethod
     def key_up(cls, key):
         return key in cls._keys_up
+
+    @classmethod
+    def any_key_down(cls):
+        return bool(cls._keys_down)
 
     @classmethod
     def mouse_down(cls, button):
@@ -49,16 +73,17 @@ class Input(object):
         cls._keys_not_held = set()
 
         # Store user input, so we can use it for text input
-        cls.user_input = pg.event.get(eventtype=pg.KEYDOWN)
+        cls.user_input_down = pg.event.get(eventtype=pg.KEYDOWN)
+        cls.user_input_up = pg.event.get(eventtype=pg.KEYUP)
 
         # Get keys down, also handle if it is being held
-        for event in cls.user_input:
+        for event in cls.user_input_down:
             if event.key in cls._keys_down:
                 cls._keys_held.add(event.key)
             cls._keys_down.add(event.key)
 
         # Get keys up, also handle if it is being held
-        for event in pg.event.get(eventtype=pg.KEYUP):
+        for event in cls.user_input_up:
             if event.key in cls._keys_held:
                 cls._keys_held.remove(event.key)
             if event.key in cls._keys_down:
@@ -92,7 +117,7 @@ class Input(object):
             cls._mouse_up.add(event.button)
             
     @classmethod
-    def refresh_input(cls):
+    def refresh_input(cls, parse_input=False):
         # TODO/FIXME:
         # Process events, probably should be refactored somewhere,
         # where its only done once
@@ -100,3 +125,77 @@ class Input(object):
 
         cls._refresh_keys()
         cls._refresh_mouse()
+
+        if parse_input:
+            TextInput.parse_input()
+
+
+class TextInput(object):
+    """Keeps track of user input when `parse_input` is called every frame.
+    Relies heavily on Input class and its behavior.
+    """
+    _input_string = ""
+    _initial_delay_passed = False
+    _current_input_sent = False
+    _last_input_time = 0
+    initial_delay = 500
+    repeat_delay = 100
+    input_events = dict()
+
+    # Move clock implementation somewhere else
+    clock = Clock()
+
+    @classmethod
+    def _reset_delay(cls):
+        cls._last_input_time = Timing.get_ticks()
+        cls._initial_delay_passed = False
+        cls._current_input_sent = False
+
+    @classmethod
+    def get_input(cls):
+        # Cached input string for this frame, in case of multiple listeners
+        if cls._input_string:
+            return cls._input_string
+
+        current_time = Timing.get_ticks()
+
+        repeat_delay_passed = current_time > cls.repeat_delay + cls._last_input_time
+        initial_delay_passed = current_time > cls.initial_delay + cls._last_input_time
+        should_return_input = (
+            cls._initial_delay_passed and repeat_delay_passed or
+            not cls._initial_delay_passed and initial_delay_passed or
+            not cls._current_input_sent
+        )
+
+        if should_return_input:
+            # Set flags so that we can now repeat only, instead of other values
+            if initial_delay_passed:
+                cls._initial_delay_passed = True
+            cls._current_input_sent = True
+            cls._last_input_time = current_time
+
+            # Get values from parsed events
+            for value in cls.input_events.values():
+                cls._input_string += value
+
+        return cls._input_string
+
+    @classmethod
+    def parse_input(cls):
+        # Clear input cache from this frame
+        cls._input_string = ""
+
+        # Store inputs which are found in `user_input_down` of Input
+        if Input.user_input_down:
+            for event in Input.user_input_down:
+                # Escape returns unicode for esc command, we dont want that
+                if event.key != pg.K_ESCAPE:
+                    cls.input_events[event.key] = event.unicode
+
+            # Reset delay as we just got new input
+            cls._reset_delay()
+
+        # Remove inputs which are found in `user_input_up` of Input
+        for event in Input.user_input_up:
+            if event.key in cls.input_events:
+                del cls.input_events[event.key]
