@@ -11,7 +11,7 @@ Clock = pg.time.Clock()
 def main():
     
     pg.display.init()
-    screen = pg.display.set_mode((1920,1080),flags = pg.HWSURFACE|pg.FULLSCREEN)
+    screen = pg.display.set_mode((1024,678))
 
 
     player = pg.image.load("Spielfigur.png").convert()
@@ -30,7 +30,7 @@ def main():
    
     while running:
 
-        screen.blit(background, (0,0))    
+        screen.fill((50,50,50))    
         mobs = modu.mobs_collide(2, mobs, mobs_list, screen)
         check_events_return = gf.check_events(Player1)
         projectiles, event_number, running = check_events_return[0], check_events_return[1], check_events_return[2]
@@ -38,7 +38,7 @@ def main():
         if not pg.Rect(Player1.rect).collidelist(mobs_list) == -1:
             running = True
         #blit the players position and the movement
-        
+        print(Player1.rect[0])
         Player1.checkKeys()
         Player1.update()
         screen.blit(player, Player1.pos)

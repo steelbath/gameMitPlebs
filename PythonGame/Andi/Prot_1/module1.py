@@ -43,6 +43,7 @@ def mobs_collide(mob_number, mobs, mobs_list, screen):
                     mob.collision()
 
         mobs_list[i].move()
+        
     return mobs
 
 

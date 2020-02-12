@@ -7,7 +7,7 @@ class Enemies:
 
     def __init__(self, image, speed:list=[0,0], start_pos:list=[0,0]):
         self.image = image
-        self.rect = self.image.get_recta()
+        self.rect = self.image.get_rect()
         self.pos = np.array(list(start_pos))
         self.speed = np.array(list(speed))
         self.rect.centerx = start_pos[0]
@@ -22,13 +22,14 @@ class Enemies:
         self.rect.centery = int(self.pos[1])
         self.topleft = pg.Rect(self.rect).topleft
         self.bottomright = pg.Rect(self.rect).bottomright
-        if self.rect.centerx > 1280:
+        
+        if self.rect.centerx > 1024:
             self.speed[0] = np.random.random_sample()*(-10)
         if self.rect.centerx < 0:
             self.speed[0] = np.random.random_sample()*10
         if self.rect.centery < 0:
             self.speed[1] = np.random.random_sample()*10
-        if self.rect.centery > 720:
+        if self.rect.centery > 768:
             self.speed[1] = np.random.random_sample()*(-10)
         return self.rect
     
@@ -77,20 +78,7 @@ class Creature():
             elif self.rect.centery < 0:
                 self.rect.centery = 768
                 self.pos[1] = 768
-    def update_2(self):
-        if self.speed != [0,0]:
-            self.pos[0]+=self.speed[0]
-            self.pos[1]+=self.speed[1]
-            self.rect.centerx = int(self.pos[0])
-            self.rect.centery = int(self.pos[1])
-            if self.rect.centerx > 1240:
-                self.speed[0] = 0
-            elif self.rect.centerx <0:
-                self.speed[0] = 0
-            elif self.rect.centery > 680:
-                self.speed[1] = 0
-            elif self.rect.centery < 0:
-                self.speed[1] = 0
+    
     def shoot(self,projectile,projectiles):
         self.projectile = projectile
         self.projectiles = projectiles

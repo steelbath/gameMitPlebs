@@ -11,8 +11,6 @@ def check_events(P1):
     
     running = True
     for event in pg.event.get():
-        if event.type==pg.QUIT:
-            sys.exit()
         
 
         if event.type == pg.KEYDOWN:
