@@ -23,13 +23,13 @@ class Enemies:
         self.topleft = pg.Rect(self.rect).topleft
         self.bottomright = pg.Rect(self.rect).bottomright
         
-        if self.rect.centerx > 1024:
+        if self.rect.left > 1024:
             self.speed[0] = np.random.random_sample()*(-10)
-        if self.rect.centerx < 0:
+        if self.rect.right < 0:
             self.speed[0] = np.random.random_sample()*10
-        if self.rect.centery < 0:
+        if self.rect.top < 0:
             self.speed[1] = np.random.random_sample()*10
-        if self.rect.centery > 768:
+        if self.rect.bottom > 768:
             self.speed[1] = np.random.random_sample()*(-10)
         return self.rect
     

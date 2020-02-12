@@ -38,7 +38,7 @@ def main():
         if not pg.Rect(Player1.rect).collidelist(mobs_list) == -1:
             running = True
         #blit the players position and the movement
-        print(Player1.rect[0])
+     
         Player1.checkKeys()
         Player1.update()
         screen.blit(player, Player1.pos)
