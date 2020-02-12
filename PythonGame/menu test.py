@@ -40,6 +40,8 @@ def main():
         print(Input.keys_down)
         cpos-=1
         if cpos <= 0: cpos=500
+        if Input.key_down(pygame.K_ESCAPE):
+            print('pressed')
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False

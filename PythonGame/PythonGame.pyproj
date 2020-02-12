@@ -39,6 +39,9 @@
     <Compile Include="gui\layout\classes.py" />
     <Compile Include="gui\layout\__init__.py" />
     <Compile Include="menu test.py" />
+    <Compile Include="game_functions.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Riku\main.py">
       <SubType>Code</SubType>
     </Compile>
