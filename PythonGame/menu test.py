@@ -7,6 +7,30 @@ from utility.classes import Color, Position
 from utility.input import Input
 
 
+def openMenu():
+    menu=True
+    while menu:
+        menu_manager.update
+
+    text_options = {
+        "horizontal_align": Text.ALIGN_CENTER,
+        "vertical_align": Text.ALIGN_CENTER,
+    }
+    menu_button1 = Button(
+        text="continue", on_click=clickered, position=Position(480, 80),
+        shape=Rect(120, 40), color=Color.light_grey.lighten(), text_options=text_options
+    )
+    menu_button2= Button(
+        text="options", on_click=clickered, position=Position(480, 280),
+        shape=Rect(120, 40), color=Color.light_grey.lighten(), text_options=text_options
+    )
+    menu_button3 = Button(
+        text="quit", on_click=clickered, position=Position(480, 480),
+        shape=Rect(120, 40), color=Color.light_grey.lighten(), text_options=text_options
+    )           
+    if Input.key_down(pygame.K_ESCAPE):
+        menu=False
+
 def main():
     pygame.init()
     pygame.display.set_caption("GUI testing")
@@ -14,8 +38,8 @@ def main():
     screen.fill((0,0,0))
 
     gui_manager = GUI(screen)
-    gui_manager.set_background_color(Color.black)
-
+    menu_manager = GUI(screen)
+    menu_manager.set_background_color(Color.black)
     def clickered():
         print("Clicked!")
 
@@ -28,7 +52,8 @@ def main():
         shape=Rect(80, 40), color=Color.light_grey.lighten(), text_options=text_options
     )
 
-    gui_manager.add_element(test_button)
+    gui_manager.add_element(test_button) 
+    
     cpos=500
 
     running = True
@@ -37,11 +62,10 @@ def main():
         # DEBUG: Set low framerate for debugging
         clock.tick_busy_loop(5)
         Input._refresh_keys()
-        print(Input.keys_down)
         cpos-=1
         if cpos <= 0: cpos=500
         if Input.key_down(pygame.K_ESCAPE):
-            print('pressed')
+            openMenu()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False

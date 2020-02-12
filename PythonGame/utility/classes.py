@@ -50,9 +50,10 @@ class Position(object, metaclass=PositionMeta):
     def __truediv__(self, other):
         return Position(self.x / other.x, self.y / other.y)
     
+    #cos and sin swape for 0° = north 
     def get_coords_to_distance_and_angle(self, distance: float, angle: float) -> 'Position':
-        x = math.sin(math.radians(angle)) * distance
-        y = math.cos(math.radians(angle)) * distance
+        x = math.cos(math.radians(angle)) * distance
+        y = math.sin(math.radians(angle)) * distance
         return self + Position(x, y)
 
     def get_angle_to(self, other_pos: 'Position') -> float:
