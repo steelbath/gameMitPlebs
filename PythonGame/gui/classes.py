@@ -3,20 +3,24 @@ from types import FunctionType as Function
 
 import pygame as pg
 from gui.base_classes import *
-from utility.input import Input, TextInput
+from utility.input import Input, InputText
 from utility.timing import Timing
 
 
 class GUI(object):
     """Manager class for GUI elements"""
-    _elements = list()  # List of all gui elements on screen
+    _elements = list()  # List of all gui elements without layout
+    _drawn_elements = list()  # List of all gui elements without layout
 
     # List of layouts containing their own elements, needed for 
     # tracking element order when changing selected interactive GUI element
     # via arrows or tab
-    _layouts = list()  
+    _layouts = list()
 
     def __init__(self, screen):
+        self._elements = list()
+        self._drawn_elements = list()
+        self._layouts = list()
         self.screen = screen
         self.background_image = None
         self.background_color = None
@@ -30,15 +34,19 @@ class GUI(object):
                 return GUI_STATIC.focused_element.update()
             else:
                 if Input.any_mouse_pressed():
+                    # Remove focus
                     GUI_STATIC.focused_element.blur()
                 else:
                     GUI_STATIC.focused_element.exit()
+
+                    # Still keep updating as it remains focused
                     GUI_STATIC.focused_element.update()
 
         for i in range(len(self._layouts) -1, -1, -1):
             # Layout does similar input handling for its elements as this
-            if self._layouts[i].check_hit(pos):
-                return self._layouts[i].update()
+            if self._layouts[i].update():
+                # Layout succesfully updated some menu item
+                return 
 
         for i in range(len(self._elements) -1, -1, -1):
             # Global elements, not contained in layouts
@@ -60,6 +68,9 @@ class GUI(object):
             GUI_STATIC.active_screen.fill(self.background_color.as_tuple)
 
         # Then draw all the elements
+        for elem in self._drawn_elements:
+            elem.draw()
+
         for elem in self._elements:
             elem.draw()
 
@@ -70,8 +81,11 @@ class GUI(object):
         # Refresh pygame display after drawing all GUI elements
         pg.display.update()
 
-    def add_element(self, element):
-        self._elements.append(element)
+    def add_element(self, element, drawn_only=False):
+        if drawn_only:
+            self._drawn_elements.append(element)
+        else:
+            self._elements.append(element)
 
     def add_layout(self, layout):
         self._layouts.append(layout)
@@ -87,7 +101,7 @@ class GUI(object):
 class Button(InteractiveElement):
     interactive = True
 
-    def __init__(self, text: [Text, str], on_click: Function, text_options: dict = None,
+    def __init__(self, text: ['Text', str], on_click: Function, text_options: dict = None,
                  *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.on_click = on_click
@@ -170,7 +184,7 @@ class TextElement(InputElement):
         self.text.set_text(self.input)
 
     def _handle_input(self):
-        input = TextInput.get_input()
+        input = InputText.get_input()
         if input:
             input_before = self.input
             if input is not True:
@@ -260,6 +274,76 @@ class TextElement(InputElement):
         super().blur()
         self._cursor_blinking = True
         GUI_STATIC.listen_text_input = False
+
+
+class TEXT_ALIGN:
+    CENTER = 0
+    LEFT = 1
+    RIGHT = 2
+    TOP = 1
+    BOTTOM = 2
+    NONE = 3
+
+
+class Text(object):
+    def __init__(self, text: str, position: Position, font: Font, color: Color = None,
+                 container: 'Element' = None, vertical_align: int = 1,
+                 horizontal_align: int = 1):
+        self.text = text
+        self.position = position
+        self._font_base = font
+        self.color = color or Color.black
+        self._image = None
+        self.container = container
+        self.vertical_align = vertical_align
+        self.horizontal_align = horizontal_align
+
+    def _align_text_to_container(self):
+        self._image_rect = self._image.get_rect()
+
+        # Initially put the text where the position is set
+        self._image_rect.x = self.position.x
+        self._image_rect.y = self.position.y
+
+        if self.container:
+            # Get container values
+            rect = self.container.as_rect
+            center = self.container.get_center()
+
+            # Align X
+            if self.horizontal_align == TEXT_ALIGN.LEFT:
+                self._image_rect.x = rect[0]
+            elif self.horizontal_align == TEXT_ALIGN.CENTER:
+                self._image_rect.x = center.x - self._image_rect.width / 2
+            elif self.horizontal_align == TEXT_ALIGN.RIGHT:
+                self._image_rect.x = rect[0] + rect[2] - self._image_rect.width
+
+            # Align Y
+            if self.vertical_align == TEXT_ALIGN.TOP:
+                self._image_rect.y = rect[1]
+            elif self.vertical_align == TEXT_ALIGN.CENTER:
+                self._image_rect.y = center.y - self._image_rect.height / 2
+            elif self.vertical_align == TEXT_ALIGN.BOTTOM:
+                self._image_rect.y = rect[1] + rect[3] - self._image_rect.height
+
+    def _render_text(self):
+        self._image = self.font.render(self.text, True, self.color.as_tuple, None)
+        self._align_text_to_container()
+
+    def _build_image(self):
+        self.font = self._font_base.build_font()
+        self._render_text()
+
+    def set_text(self, text):
+        self.text = text
+        self._render_text()
+
+    def draw(self):
+        screen = GUI_STATIC.active_screen
+        if not self._image:
+            self._build_image()
+
+        screen.blit(self._image, self._image_rect)
         
 
 class Rect(Shape):

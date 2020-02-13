@@ -34,74 +34,6 @@ class GUI_STATIC(object):
         cls.active_gui.update()
 
 
-class Text(object):
-    ALIGN_CENTER = 0
-    ALIGN_LEFT = 1
-    ALIGN_RIGHT = 2
-    ALIGN_TOP = 1
-    ALIGN_BOTTOM = 2
-    ALIGN_NONE = 3
-
-    def __init__(self, text: str, position: Position, font: Font, color: Color = None,
-                 container: 'Element' = None, vertical_align: int = 1,
-                 horizontal_align: int = 1):
-        self.text = text
-        self.position = position
-        self._font_base = font
-        self.color = color or Color.black
-        self._image = None
-        self.container = container
-        self.vertical_align = vertical_align
-        self.horizontal_align = horizontal_align
-
-    def _align_text_to_container(self):
-        self._image_rect = self._image.get_rect()
-
-        # Initially put the text where the position is set
-        self._image_rect.x = self.position.x
-        self._image_rect.y = self.position.y
-
-        if self.container:
-            # Get container values
-            rect = self.container.as_rect
-            center = self.container.get_center()
-
-            # Align X
-            if self.horizontal_align == self.ALIGN_LEFT:
-                self._image_rect.x = rect[0]
-            elif self.horizontal_align == self.ALIGN_CENTER:
-                self._image_rect.x = center.x - self._image_rect.width / 2
-            elif self.horizontal_align == self.ALIGN_RIGHT:
-                self._image_rect.x = rect[0] + rect[2] - self._image_rect.width
-
-            # Align Y
-            if self.vertical_align == self.ALIGN_TOP:
-                self._image_rect.y = rect[1]
-            elif self.vertical_align == self.ALIGN_CENTER:
-                self._image_rect.y = center.y - self._image_rect.height / 2
-            elif self.vertical_align == self.ALIGN_BOTTOM:
-                self._image_rect.y = rect[1] + rect[3] - self._image_rect.height
-
-    def _render_text(self):
-        self._image = self.font.render(self.text, True, self.color.as_tuple, None)
-        self._align_text_to_container()
-
-    def _build_image(self):
-        self.font = self._font_base.build_font()
-        self._render_text()
-
-    def set_text(self, text):
-        self.text = text
-        self._render_text()
-
-    def draw(self):
-        screen = GUI_STATIC.active_screen
-        if not self._image:
-            self._build_image()
-
-        screen.blit(self._image, self._image_rect)
-
-
 class Element(object):
     """Base class for GUI elements"""
     interactive = False
@@ -125,7 +57,9 @@ class Element(object):
         self.shape.draw()
 
     def get_center(self) -> Position:
-        return self.position + Position(self.shape.width / 2, self.shape.height / 2)
+        return self.position + Position(
+            self.shape.get_width() / 2, self.shape.get_height() / 2
+        )
 
     @property
     def as_rect(self):

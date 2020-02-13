@@ -229,10 +229,10 @@ class Input(object):
         cls._refresh_mouse()
 
         if parse_input:
-            TextInput.parse_input()
+            InputText.parse_input()
 
 
-class TextInput(object):
+class InputText(object):
     """Keeps track of user input when `parse_input` is called every frame.
     Relies heavily on Input class and its behavior.
     """
