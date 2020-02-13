@@ -50,8 +50,8 @@ def main():
         Button(text="Credits", on_click=clickered, shape=Rect(80, 40), **button_defaults),
         Button(text="Exit game", on_click=clickered, shape=Rect(80, 40), **button_defaults),
     ]
-    menu_layout = Layout(position=Position(50, 100), shape=Rect(80, 40), color=Color.dark_grey,
-                         layout_direction=LAYOUT_DIRECTION.VERTICAL)
+    menu_layout = Layout(position=Position(50, 100), shape=Rect(100, 255), color=Color.dark_grey,
+                         padding=5, spacing=20, layout_direction=LAYOUT_DIRECTION.VERTICAL)
     for element in menu_buttons:
         menu_layout.add_element(element)
     main_menu.add_layout(menu_layout)
@@ -64,8 +64,8 @@ def main():
         Button(text="Controls", on_click=clickered, shape=Rect(120, 40), **button_defaults),
         Button(text="Return", on_click=open_menu, shape=Rect(120, 40), **button_defaults),
     ]
-    settings_layout = Layout(position=Position(100, 50), shape=Rect(80, 40), color=Color.dark_grey,
-                             layout_direction=LAYOUT_DIRECTION.HORIZONTAL)
+    settings_layout = Layout(position=Position(100, 50), shape=Rect(660, 60), color=Color.dark_grey,
+                             padding=5, spacing=5, layout_direction=LAYOUT_DIRECTION.HORIZONTAL)
     for element in setting_buttons:
         settings_layout.add_element(element)
     settings_menu.add_layout(settings_layout)

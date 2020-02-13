@@ -39,13 +39,21 @@ class Layout(Element):
         return initial_pos
 
     def get_next_position(self, element):
-        move = self._last_position + self.spacing + self.padding
+        if self._last_position == self.padding:
+            move = self._last_position
+        else:
+            move = self._last_position + self.spacing + self.padding
+
         if self.direction == LAYOUT_DIRECTION.HORIZONTAL:
             move += element.shape.get_width()
-            position = self.first_position + Position(move, 0)
+            position = self.first_position + Position(
+                move - element.shape.get_width(), -element.shape.get_height() / 2
+            )
         else:
             move += element.shape.get_height()
-            position = self.first_position + Position(0, move)
+            position = self.first_position + Position(
+                -element.shape.get_width() / 2, move -element.shape.get_height()
+            )
 
         self._last_position = move
         return position
@@ -77,6 +85,8 @@ class Layout(Element):
                 return True
 
     def draw(self):
+        super().draw()
+
         # Draw all elements in layout
         for elem in self._drawn_elements:
             elem.draw()

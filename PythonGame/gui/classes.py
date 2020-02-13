@@ -159,12 +159,18 @@ class TextElement(InputElement):
         self.input = ""
 
         # Setup text objects
+        text_options = text_options or {}
+        text_options.update({
+            "horizontal_align": TEXT_ALIGN.LEFT,
+            "vertical_align": TEXT_ALIGN.CENTER
+        })
         self.hint_text = None
         if hint_text:
             self.hint_text = Text(
                 hint_text, kwargs.get("position"), self._font_base, container=self,
                 **text_options
             )
+
         self.text = Text(
             "", kwargs.get("position"), self._font_base, container=self, **text_options
         )
@@ -267,7 +273,10 @@ class TextElement(InputElement):
                 if self.cursor_position > 0:
                     cursor_x_pos -= self._cursor_image.get_width()
                 GUI_STATIC.active_screen.blit(
-                    self._cursor_image, (cursor_x_pos + self.position.x, self.position.y)
+                    self._cursor_image, (
+                        cursor_x_pos + self.position.x,
+                        self.text._image_rect.y
+                    )
                 )
 
     def blur(self):
