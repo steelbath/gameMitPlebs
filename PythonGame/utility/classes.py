@@ -131,28 +131,18 @@ class Color(object, metaclass=ColorMeta):
 
     def darken(self):
         # FIXME: Stupid implementation
-        self.r -= 40
-        if self.r < 0:
-            self.r = 0
-        self.g -= 40
-        if self.g < 0:
-            self.g = 0
-        self.b -= 40
-        if self.b < 0:
-            self.b = 0
+        self.r = max(self.r - 40, 0)
+        self.g = max(self.g - 40, 0)
+        self.b = max(self.b - 40, 0)
+        self.a = max(self.a - 40, 0)
         return self
 
     def lighten(self):
         # FIXME: Stupid implementation
-        self.r += 40
-        if self.r > 255:
-            self.r = 255
-        self.g += 40
-        if self.g > 255:
-            self.g = 255
-        self.b += 40
-        if self.b > 255:
-            self.b = 255
+        self.r = min(self.r + 40, 255)
+        self.g = min(self.g + 40, 255)
+        self.b = min(self.b + 40, 255)
+        self.a = min(self.a + 40, 255)
         return self
 
     @property

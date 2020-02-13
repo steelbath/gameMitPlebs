@@ -58,8 +58,26 @@ class Input(object):
         return button in cls._mouse_down
 
     @classmethod
+    def any_mouse_down(cls):
+        return bool(cls._mouse_down)
+
+    @classmethod
     def mouse_held(cls, button):
         return button in cls._mouse_held
+
+    @classmethod
+    def any_mouse_held(cls):
+        return bool(cls._mouse_held)
+
+    @classmethod
+    def mouse_pressed(cls, button):
+        # Check for held keys first, as it is most common case
+        return button in cls._mouse_held or button in cls._mouse_down
+
+    @classmethod
+    def any_mouse_pressed(cls):
+        # Check for held keys first, as it is most common case
+        return bool(cls._mouse_held) or bool(cls._mouse_down)
 
     @classmethod
     def mouse_up(cls, button):
@@ -67,6 +85,8 @@ class Input(object):
     
     @classmethod
     def _refresh_keys(cls):
+        # Add keys which were down last frame to keys_held set, and remove keys that
+        # are not held anymore
         cls._keys_held = cls._keys_held.union(cls._keys_down.difference(cls._keys_not_held))
         cls._keys_down = set()
         cls._keys_up = set()
@@ -78,8 +98,6 @@ class Input(object):
 
         # Get keys down, also handle if it is being held
         for event in cls.user_input_down:
-            if event.key in cls._keys_down:
-                cls._keys_held.add(event.key)
             cls._keys_down.add(event.key)
 
         # Get keys up, also handle if it is being held
@@ -138,12 +156,9 @@ class TextInput(object):
     _initial_delay_passed = False
     _current_input_sent = False
     _last_input_time = 0
-    initial_delay = 500
-    repeat_delay = 100
+    initial_delay = 400
+    repeat_delay = 33
     input_events = dict()
-
-    # Move clock implementation somewhere else
-    clock = Clock()
 
     @classmethod
     def _reset_delay(cls):
@@ -178,6 +193,11 @@ class TextInput(object):
             for value in cls.input_events.values():
                 cls._input_string += value
 
+            if cls.input_events and not cls._input_string:
+                # Return true as a result to indicate that repeat was triggered for keys
+                # that do not result in unicode, ie. backspace
+                cls._input_string = True
+
         return cls._input_string
 
     @classmethod
@@ -187,9 +207,11 @@ class TextInput(object):
 
         # Store inputs which are found in `user_input_down` of Input
         if Input.user_input_down:
+            # Clear input events so we dont spam old inputs, only ones last pressed
+            input_events = dict()
             for event in Input.user_input_down:
-                # Escape returns unicode for esc command, we dont want that
-                if event.key != pg.K_ESCAPE:
+                # Ignore unicode on keys with special return values
+                if event.key not in (pg.K_ESCAPE, pg.K_BACKSPACE, pg.K_RETURN):
                     cls.input_events[event.key] = event.unicode
 
             # Reset delay as we just got new input

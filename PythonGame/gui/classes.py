@@ -1,7 +1,10 @@
 
+from types import FunctionType as Function
+
 import pygame as pg
 from gui.base_classes import *
-from utility.input import Input
+from utility.input import Input, TextInput
+from utility.timing import Timing
 
 
 class GUI(object):
@@ -14,23 +17,33 @@ class GUI(object):
     _layouts = list()  
 
     def __init__(self, screen):
-        GUI_STATIC.active_screen = screen
+        self.screen = screen
         self.background_image = None
         self.background_color = None
 
     def _handle_input(self):
         pos = Input.mouse_pos
 
+        if GUI_STATIC.focused_element:
+            # Check if currently focused element should still be focused
+            if GUI_STATIC.focused_element.check_hit(pos):
+                return GUI_STATIC.focused_element.update()
+            else:
+                if Input.any_mouse_pressed():
+                    GUI_STATIC.focused_element.blur()
+                else:
+                    GUI_STATIC.focused_element.exit()
+                    GUI_STATIC.focused_element.update()
+
         for i in range(len(self._layouts) -1, -1, -1):
             # Layout does similar input handling for its elements as this
             if self._layouts[i].check_hit(pos):
                 return self._layouts[i].update()
-            self._layouts[i].blur()
 
         for i in range(len(self._elements) -1, -1, -1):
+            # Global elements, not contained in layouts
             if self._elements[i].check_hit(pos):
                 return self._elements[i].update()
-            self._elements[i].blur()
 
     def update(self):
         # Get user input and pass it onto top-most element
@@ -74,8 +87,10 @@ class GUI(object):
 class Button(InteractiveElement):
     interactive = True
 
-    def __init__(self, text: [Text, str], text_options: dict = None, *args, **kwargs):
+    def __init__(self, text: [Text, str], on_click: Function, text_options: dict = None,
+                 *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.on_click = on_click
 
         if isinstance(text, str):
             options = text_options or dict()
@@ -91,10 +106,10 @@ class Button(InteractiveElement):
         # TODO: No use for it currently
 
         # Handle mouse held on this element
-        if Input.mouse_held(pg.BUTTON_LEFT):
+        if Input.any_mouse_held():
             if self.shape._use_color_only:
                 self.shape.color = self.shape.dark_color
-        elif not any(Input._mouse_held):
+        else:
             if self.shape._use_color_only:
                 self.shape.color = self.shape.light_color
 
@@ -108,9 +123,138 @@ class Button(InteractiveElement):
     def blur(self):
         """Internally called, when pointer is not on top of element"""
 
+        # TODO: Track only focused elements, and when pointer leaves them
+        #       then only call the blur, not always if update is not ran
+
         # Set color back to default
         if self.shape._use_color_only:
             self.shape.color = self.shape.default_color
+
+
+class TextElement(InputElement):
+    def __init__(self, font, on_change: Function = None, hint_text: str = "",
+                 text_options: dict = None, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._font_base = font()
+        self.font = self._font_base.build_font()
+        self.input = ""
+
+        # Setup text objects
+        self.hint_text = None
+        if hint_text:
+            self.hint_text = Text(
+                hint_text, kwargs.get("position"), self._font_base, container=self,
+                **text_options
+            )
+        self.text = Text(
+            "", kwargs.get("position"), self._font_base, container=self, **text_options
+        )
+
+        # Visible cursor info
+        self.cursor_position = 0
+        self.blink_timer = 500
+        self._cursor_image = pg.Surface(
+            (self._font_base.size / 20 + 1, self._font_base.size)
+        )
+        self._cursor_image.fill(Color.black.as_tuple)  # TODO: Get inverse color
+        self._cursor_blinking = True
+        self._last_blink = 0
+
+    def _value_changed(self):
+        # Rebuild text with font and set it as image for shape
+        self.text.set_text(self.input)
+
+    def _handle_input(self):
+        input = TextInput.get_input()
+        if input:
+            input_before = self.input
+            if input is not True:
+                # Add input if it's not only special keys
+                self.input = (
+                    self.input[:self.cursor_position] + input +
+                    self.input[self.cursor_position:]
+                )
+                self.cursor_position += len(input)
+
+            if Input.key_pressed(pg.K_HOME):
+                self.cursor_position = 0
+            if Input.key_pressed(pg.K_END):
+                self.cursor_position = len(self.input)
+            if Input.key_pressed(pg.K_LEFT):
+                if Input.key_pressed(pg.K_LCTRL) or Input.key_pressed(pg.K_RCTRL):
+                    # TODO: Move over whole word
+                    pass
+                else:
+                    self.cursor_position = max(self.cursor_position -1, 0)
+            if Input.key_pressed(pg.K_RIGHT):
+                if Input.key_pressed(pg.K_LCTRL) or Input.key_pressed(pg.K_RCTRL):
+                    # TODO: Move over whole word
+                    pass
+                else:
+                    self.cursor_position = min(
+                        self.cursor_position +1, len(self.input)
+                    )
+                    
+            if Input.key_pressed(pg.K_BACKSPACE):
+                # Remove letter before cursor position
+                self.input = (
+                    self.input[:max(self.cursor_position -1, 0)] +
+                    self.input[self.cursor_position:]
+                )
+                self.cursor_position = max(self.cursor_position - 1, 0)
+            if Input.key_pressed(pg.K_DELETE):
+                # Remove letter after cursor position
+                self.input = (
+                    self.input[:self.cursor_position] +
+                    self.input[min(self.cursor_position +1, len(self.input)):]
+                )
+
+            if input_before != self.input:
+                self._value_changed()
+
+            # Reset blinker when typing anything
+            self._cursor_blinking = False
+            self._last_blink = Timing.get_ticks()
+
+    def update(self):
+        super().update()
+
+        if self.focused:
+            GUI_STATIC.listen_text_input = True
+            if Input.any_key_pressed():
+                # Get text input from TextInput class and then manipulate it depending
+                # on special key presses
+                self._handle_input()
+
+            # Check blink timer
+            last_blink = Timing.get_ticks()
+            if last_blink > self._last_blink + self.blink_timer:
+                self._cursor_blinking = not self._cursor_blinking
+                self._last_blink = last_blink
+
+    def draw(self):
+        super().draw()
+
+        if not self.input and self.hint_text:
+            # Draw hint_text image
+            self.hint_text.draw()
+        else:
+            # Draw typed text
+            self.text.draw()
+
+            # Blink the cursor if timer is full
+            if not self._cursor_blinking:
+                cursor_x_pos = self.font.size(self.input[:self.cursor_position])[0]
+                if self.cursor_position > 0:
+                    cursor_x_pos -= self._cursor_image.get_width()
+                GUI_STATIC.active_screen.blit(
+                    self._cursor_image, (cursor_x_pos + self.position.x, self.position.y)
+                )
+
+    def blur(self):
+        super().blur()
+        self._cursor_blinking = True
+        GUI_STATIC.listen_text_input = False
         
 
 class Rect(Shape):
