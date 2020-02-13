@@ -140,6 +140,10 @@ class Element(object):
 
 class InteractiveElement(Element):
     """Base class for interactive GUI elements"""
+
+    # Contains events what the GUI should ignore if this is focused
+    internal_event_handling = set()
+
     def __init__(self, image_on_hover: str = None, image_on_press: str = None,
                  *args, **kwargs):
         self.active = True

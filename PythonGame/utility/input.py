@@ -19,26 +19,48 @@ class Input(object):
     mouse_pos = Position.zero
     user_input = list()
 
+    # KEYBOARD_DOWN
+    #region
     @classmethod
-    def key_down(cls, key):
-        return key in cls._keys_down
+    def key_down(cls, *keys):
+        return cls._keys_down.issuperset(keys)
 
     @classmethod
     def any_key_down(cls):
         return bool(cls._keys_down)
 
     @classmethod
-    def key_held(cls, key):
-        return key in cls._keys_held
+    def one_of_keys_down(cls, *keys):
+        for key in keys:
+            if key in cls._keys_down:
+                return True
+        return False
+    #endregion
+
+    # KEYBOARD_HELD
+    #region
+    @classmethod
+    def key_held(cls, *keys):
+        return cls._keys_held.issuperset(keys)
 
     @classmethod
     def any_key_held(cls):
         return bool(cls._keys_down)
 
     @classmethod
-    def key_pressed(cls, key):
+    def one_of_keys_held(cls, *keys):
+        for key in keys:
+            if key in cls._keys_held:
+                return True
+        return False
+    #endregion
+
+    # KEYBOARD_PRESSED
+    #region
+    @classmethod
+    def key_pressed(cls, *keys):
         # Check for held keys first, as it is most common case
-        return key in cls._keys_held or key in cls._keys_down
+        return cls._keys_held.issuperset(keys) or cls._keys_down.issuperset(keys)
 
     @classmethod
     def any_key_pressed(cls):
@@ -46,33 +68,73 @@ class Input(object):
         return bool(cls._keys_held) or bool(cls._keys_down)
 
     @classmethod
-    def key_up(cls, key):
-        return key in cls._keys_up
+    def one_of_keys_pressed(cls, *keys):
+        for key in keys:
+            if key in cls._keys_held or key in cls._keys_down:
+                return True
+        return False
+    #endregion
+
+    # KEYBOARD_UP
+    #region
+    @classmethod
+    def key_up(cls, *keys):
+        return cls._keys_up.issuperset(keys)
 
     @classmethod
-    def any_key_down(cls):
-        return bool(cls._keys_down)
+    def any_key_up(cls):
+        return bool(cls._keys_up)
 
     @classmethod
-    def mouse_down(cls, button):
-        return button in cls._mouse_down
+    def one_of_keys_up(cls, *keys):
+        for key in keys:
+            if key in cls._keys_up:
+                return True
+        return False
+    #endregion
+
+    # MOUSE_DOWN
+    #region
+    @classmethod
+    def mouse_down(cls, *buttons):
+        return cls._mouse_down.issuperset(buttons)
 
     @classmethod
     def any_mouse_down(cls):
         return bool(cls._mouse_down)
 
     @classmethod
-    def mouse_held(cls, button):
-        return button in cls._mouse_held
+    def one_of_buttons_down(cls, *buttons):
+        for button in buttons:
+            if button in cls._mouse_down:
+                return True
+        return False
+    #endregion
+
+    # MOUSE_HELD
+    #region
+    @classmethod
+    def mouse_held(cls, *buttons):
+        return cls._mouse_held.issuperset(buttons)
 
     @classmethod
     def any_mouse_held(cls):
         return bool(cls._mouse_held)
 
     @classmethod
-    def mouse_pressed(cls, button):
+    def one_of_buttons_held(cls, *buttons):
+        for button in buttons:
+            if button in cls._mouse_held:
+                return True
+        return False
+    #endregion
+
+    # MOUSE_PRESSED
+    #region
+    @classmethod
+    def mouse_pressed(cls, *buttons):
         # Check for held keys first, as it is most common case
-        return button in cls._mouse_held or button in cls._mouse_down
+        return cls._mouse_held.issuperset(buttons) or cls._mouse_down.issuperset(buttons)
 
     @classmethod
     def any_mouse_pressed(cls):
@@ -80,8 +142,30 @@ class Input(object):
         return bool(cls._mouse_held) or bool(cls._mouse_down)
 
     @classmethod
-    def mouse_up(cls, button):
-        return button in cls._mouse_up
+    def one_of_buttons_pessed(cls, *buttons):
+        for button in buttons:
+            if button in cls._mouse_held or button in cls._mouse_down:
+                return True
+        return False
+    #endregion
+
+    # MOUSE_UP
+    #region
+    @classmethod
+    def mouse_up(cls, *buttons):
+        return cls._mouse_up.issuperset(buttons)
+
+    @classmethod
+    def any_mouse_up(cls):
+        return bool(cls._mouse_up)
+
+    @classmethod
+    def one_of_buttons_up(cls, *buttons):
+        for button in buttons:
+            if button in cls._mouse_up:
+                return True
+        return False
+    #endregion
     
     @classmethod
     def _refresh_keys(cls):
@@ -211,8 +295,9 @@ class TextInput(object):
             input_events = dict()
             for event in Input.user_input_down:
                 # Ignore unicode on keys with special return values
-                if event.key not in (pg.K_ESCAPE, pg.K_BACKSPACE, pg.K_RETURN):
-                    cls.input_events[event.key] = event.unicode
+                if event.key in (pg.K_BACKSPACE, pg.K_ESCAPE, pg.K_RETURN):
+                    event.unicode = ""
+                cls.input_events[event.key] = event.unicode
 
             # Reset delay as we just got new input
             cls._reset_delay()

@@ -132,6 +132,11 @@ class Button(InteractiveElement):
 
 
 class TextElement(InputElement):
+    """Input element for getting user keyboard inputs"""
+    internal_event_handling = set([
+        pg.K_HOME, pg.K_END, pg.K_LEFT, pg.K_RIGHT, pg.K_BACKSPACE, pg.K_DELETE
+    ])
+
     def __init__(self, font, on_change: Function = None, hint_text: str = "",
                  text_options: dict = None, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -181,13 +186,13 @@ class TextElement(InputElement):
             if Input.key_pressed(pg.K_END):
                 self.cursor_position = len(self.input)
             if Input.key_pressed(pg.K_LEFT):
-                if Input.key_pressed(pg.K_LCTRL) or Input.key_pressed(pg.K_RCTRL):
+                if Input.one_of_keys_pressed(pg.K_LCTRL, pg.K_RCTRL):
                     # TODO: Move over whole word
                     pass
                 else:
                     self.cursor_position = max(self.cursor_position -1, 0)
             if Input.key_pressed(pg.K_RIGHT):
-                if Input.key_pressed(pg.K_LCTRL) or Input.key_pressed(pg.K_RCTRL):
+                if Input.one_of_keys_pressed(pg.K_LCTRL, pg.K_RCTRL):
                     # TODO: Move over whole word
                     pass
                 else:
