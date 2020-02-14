@@ -67,10 +67,6 @@ class GUI(object):
             GUI_STATIC.active_screen.blit(self.background_image)
         elif self.background_color:
             GUI_STATIC.active_screen.fill(self.background_color.as_tuple)
-        else:
-            # Default to black background if None was set before
-            self.background_color = Color.black
-            GUI_STATIC.active_screen.fill(self.background_color.as_tuple)
 
         # Then draw all the elements
         for elem in self._drawn_elements:
