@@ -1,7 +1,7 @@
 
-from gui.base_classes import Element
-from utility.classes import Position
-from utility.input import Input
+from ..base_classes import Element
+from ...utility.classes import Position
+from ...utility.input import Input
 
 
 class LAYOUT_DIRECTION:

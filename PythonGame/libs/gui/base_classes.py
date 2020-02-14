@@ -3,9 +3,9 @@ from types import FunctionType as Function
 
 import pygame as pg
 
-from gui.fonts import Font
-from utility.classes import Position, Color
-from utility.input import Input
+from .fonts import Font
+from ..utility.classes import Position, Color
+from ..utility.input import Input
 
 
 class GUI_STATIC(object):
