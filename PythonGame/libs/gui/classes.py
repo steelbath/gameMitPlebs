@@ -42,6 +42,11 @@ class GUI(object):
                     # Still keep updating as it remains focused
                     GUI_STATIC.focused_element.update()
 
+        if GUI_STATIC.hovered_element:
+            # Check if currently hovered element should still be hovered
+            if not GUI_STATIC.hovered_element.check_hit(pos):
+                GUI_STATIC.hovered_element.exit()
+
         for i in range(len(self._layouts) -1, -1, -1):
             # Layout does similar input handling for its elements as this
             if self._layouts[i].update():
@@ -114,6 +119,10 @@ class Button(InteractiveElement):
     def draw(self):
         super().draw()
         self.text.draw()
+
+    def exit(self):
+        super().exit()
+        self.shape.color = self.shape.default_color
 
     def update(self):
         # Handle mouse down on this element

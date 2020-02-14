@@ -13,6 +13,7 @@ class GUI_STATIC(object):
     active_screen = None
     active_gui = None
     focused_element = None
+    hovered_element = None
     listen_text_input = False
 
     @classmethod
@@ -23,6 +24,15 @@ class GUI_STATIC(object):
         if cls.focused_element:
             cls.focused_element.blur()
         cls.focused_element = element
+
+    @classmethod
+    def set_hovered_element(cls, element):
+        if element == cls.hovered_element:
+            return
+
+        if cls.hovered_element:
+            cls.hovered_element.exit()
+        cls.hovered_element = element
 
     @classmethod
     def set_active_gui(cls, gui):
@@ -90,13 +100,19 @@ class InteractiveElement(Element):
         super().__init__(*args, **kwargs)
 
     def check_hit(self, pos: Position):
-        return self.shape.check_hit(pos.normalize_to(self.position))
+        hit = self.shape.check_hit(pos.normalize_to(self.position))
+        if hit and not self.hovered:
+            self.enter()
+        return hit
 
     def enter(self):
+        GUI_STATIC.set_hovered_element(self)
         self.hovered = True
 
     def exit(self):
         self.hovered = False
+        if GUI_STATIC.hovered_element == self:
+            GUI_STATIC.hovered_element = None
 
     def update(self):
         """Called, when pointer is on top of elements shape"""
