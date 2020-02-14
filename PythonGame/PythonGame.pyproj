@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>242c130f-426c-44b1-9da7-269527289382</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>menu test.py</StartupFile>
+    <StartupFile>Riku\main.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -28,16 +28,19 @@
     <Compile Include="Andi\mobs.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="gui\base_classes.py" />
-    <Compile Include="gui\fonts.py">
+    <Compile Include="libs\gui\base_classes.py" />
+    <Compile Include="libs\gui\fonts.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="gui\classes.py">
+    <Compile Include="libs\gui\classes.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="gui\__init__.py" />
-    <Compile Include="gui\layout\classes.py" />
-    <Compile Include="gui\layout\__init__.py" />
+    <Compile Include="libs\gui\__init__.py" />
+    <Compile Include="libs\gui\layout\classes.py" />
+    <Compile Include="libs\gui\layout\__init__.py" />
+    <Compile Include="libs\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="menu test.py" />
     <Compile Include="game_functions.py">
       <SubType>Code</SubType>
@@ -45,14 +48,14 @@
     <Compile Include="Riku\main.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="utility\classes.py" />
-    <Compile Include="utility\input.py">
+    <Compile Include="libs\utility\classes.py" />
+    <Compile Include="libs\utility\input.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="utility\timing.py">
+    <Compile Include="libs\utility\timing.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="utility\__init__.py" />
+    <Compile Include="libs\utility\__init__.py" />
     <Compile Include="Noose Experiments\module2.py">
       <SubType>Code</SubType>
     </Compile>
@@ -68,18 +71,24 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="10372291_648047575285066_1884809349019088769_n.png" />
+    <Content Include="assets\graphics_audio_etc_in_this_folder.txt" />
     <Content Include="intro_ball.gif" />
     <Content Include="background.png" />
+    <Content Include="libs\packages_and_libraries_in_this_folder.txt" />
     <Content Include="red_square.png" />
+    <Content Include="scripts\main_game_logic_in_this_folder.txt" />
     <Content Include="Spielfigur.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Andi\" />
-    <Folder Include="gui\" />
-    <Folder Include="gui\layout\" />
+    <Folder Include="libs\gui\" />
+    <Folder Include="libs\gui\layout\" />
+    <Folder Include="libs\" />
+    <Folder Include="assets\" />
+    <Folder Include="scripts\" />
     <Folder Include="Riku\" />
     <Folder Include="Noose Experiments\" />
-    <Folder Include="utility\" />
+    <Folder Include="libs\utility\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

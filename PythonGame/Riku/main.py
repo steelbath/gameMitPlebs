@@ -1,13 +1,13 @@
 
 import pygame
 
-from gui.layout.classes import Layout, LAYOUT_DIRECTION
-from gui.base_classes import GUI_STATIC
-from gui.classes import GUI, Button, Rect, Text, TextElement, TEXT_ALIGN
-from gui.fonts import Font
-from utility.classes import Color, Position
-from utility.input import Input, InputText
-from utility.timing import Timing
+from libs.gui.layout.classes import Layout, LAYOUT_DIRECTION
+from libs.gui.base_classes import GUI_STATIC
+from libs.gui.classes import GUI, Button, Rect, Text, TextElement, TEXT_ALIGN
+from libs.gui.fonts import Font
+from libs.utility.classes import Color, Position
+from libs.utility.input import Input, InputText
+from libs.utility.timing import Timing
 
 
 def main():

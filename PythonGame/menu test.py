@@ -2,9 +2,9 @@
 import pygame
 from pygame.time import Clock
 
-from gui.classes import GUI, Button, Rect, Text
-from utility.classes import Color, Position
-from utility.input import Input
+from libs.gui.classes import GUI, Button, Rect, Text
+from libs.utility.classes import Color, Position
+from libs.utility.input import Input
 
 
 def openMenu():

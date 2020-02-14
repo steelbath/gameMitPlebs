@@ -1,2 +1,2 @@
 import pygame as pg
-from utility.input import *
+from libs.utility.input import *

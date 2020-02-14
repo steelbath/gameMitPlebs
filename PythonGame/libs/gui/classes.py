@@ -2,9 +2,9 @@
 from types import FunctionType as Function
 
 import pygame as pg
-from gui.base_classes import *
-from utility.input import Input, InputText
-from utility.timing import Timing
+from .base_classes import *
+from ..utility.input import Input, InputText
+from ..utility.timing import Timing
 
 
 class GUI(object):
