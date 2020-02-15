@@ -37,6 +37,15 @@
     <Compile Include="libs\gui\__init__.py" />
     <Compile Include="libs\gui\layout\classes.py" />
     <Compile Include="libs\gui\layout\__init__.py" />
+    <Compile Include="libs\pooling\dop_pool.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="libs\pooling\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="libs\pooling\oop_pool.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="libs\__init__.py">
       <SubType>Code</SubType>
     </Compile>
@@ -76,7 +85,6 @@
     <Content Include="background.png" />
     <Content Include="libs\packages_and_libraries_in_this_folder.txt" />
     <Content Include="red_square.png" />
-    <Content Include="requirements.txt" />
     <Content Include="scripts\main_game_logic_in_this_folder.txt" />
     <Content Include="Spielfigur.png" />
   </ItemGroup>
@@ -86,6 +94,7 @@
     <Folder Include="libs\gui\layout\" />
     <Folder Include="libs\" />
     <Folder Include="assets\" />
+    <Folder Include="libs\pooling\" />
     <Folder Include="scripts\" />
     <Folder Include="Riku\" />
     <Folder Include="Noose Experiments\" />

@@ -46,7 +46,7 @@ class Pool():
     def activate_object(self, *args, **kwargs):
         """Sets item active if any items left in pool.
 
-        Returns: returns None if no items left in pool
+        Returns: None if no items left in pool
             None | True
         """
         if not self.inactive_objects:
