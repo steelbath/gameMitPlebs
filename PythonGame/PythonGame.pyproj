@@ -5,8 +5,7 @@
     <ProjectGuid>242c130f-426c-44b1-9da7-269527289382</ProjectGuid>
     <ProjectHome>.</ProjectHome>
     <StartupFile>Riku\main.py</StartupFile>
-    <SearchPath>
-    </SearchPath>
+    <SearchPath>..\PythonGame</SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
     <Name>PythonGame</Name>
@@ -70,12 +69,14 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include=".editorconfig" />
     <Content Include="10372291_648047575285066_1884809349019088769_n.png" />
     <Content Include="assets\graphics_audio_etc_in_this_folder.txt" />
     <Content Include="intro_ball.gif" />
     <Content Include="background.png" />
     <Content Include="libs\packages_and_libraries_in_this_folder.txt" />
     <Content Include="red_square.png" />
+    <Content Include="requirements.txt" />
     <Content Include="scripts\main_game_logic_in_this_folder.txt" />
     <Content Include="Spielfigur.png" />
   </ItemGroup>

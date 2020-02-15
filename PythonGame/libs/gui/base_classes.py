@@ -52,7 +52,7 @@ class Element(object):
                  image_name: str = None):
         if not color and not image_name:
             raise AttributeError("You must give color or image_name when declaring %s"
-                                 % self.__name__)
+                                 % self.__class__.__name__)
 
         self.position = position
         self.shape = shape
@@ -161,17 +161,17 @@ class Shape(object):
         self._use_color_only = True
 
     def get_width(self):
-        raise NotImplementedError("`get_width` is not implemented in %s" % self.__name__)
+        raise NotImplementedError("`get_width` is not implemented in %s" % self.__class__.__name__)
 
     def get_height(self):
-        raise NotImplementedError("`get_height` is not implemented in %s" % self.__name__)
+        raise NotImplementedError("`get_height` is not implemented in %s" % self.__class__.__name__)
 
     def check_hit(self, normalized_pos: Position):
         """Checks that position normalized to center of shape is within
             boundaries of shape
         """
         raise NotImplementedError(
-            "%s does not implement `check_hit` function" % self.__name__
+            "%s does not implement `check_hit` function" % self.__class__.__name__
         )
 
     def draw(self):
