@@ -14,8 +14,6 @@ class Pool():
 
         if getattr(obj, "update", None) is None:
             errors.append("update")
-        if getattr(obj, "remove", None) is None:
-            errors.append("remove")
         if getattr(obj, "reset", None) is None:
             errors.append("reset")
 
@@ -34,27 +32,32 @@ class Pool():
 
     def remove(self, *objects):
         for obj in objects:
+            obj.reset()
             self.inactive_objects.add(obj)
             self.objects.remove(obj)
-            obj.remove()
 
     def add(self, *objects):
         for obj in objects:
             self._validate_object(obj)
             self.objects.add(obj)
 
-    def activate_object(self, *args, **kwargs):
+    def activate_object(self, **kwargs):
         """Sets item active if any items left in pool.
 
         Returns: None if no items left in pool
-            None | True
+            None | obj
         """
         if not self.inactive_objects:
             return None
 
         obj = self.inactive_objects.pop()
-        obj.reset(*args, **kwargs)
-        return True
+
+        # Set values for object
+        for key, val in kwargs.items():
+            setattr(obj, key, val)
+
+        # Return object in case we want to do something else with it
+        return obj
     
 
 class PoolManager():
