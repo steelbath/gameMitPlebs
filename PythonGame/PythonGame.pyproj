@@ -11,6 +11,9 @@
     <OutputPath>.</OutputPath>
     <Name>PythonGame</Name>
     <RootNamespace>PythonGame</RootNamespace>
+    <IsWindowsApplication>False</IsWindowsApplication>
+    <LaunchProvider>Standard Python launcher</LaunchProvider>
+    <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -25,7 +28,35 @@
     <Compile Include="Andi\mobs.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Andi\prototype_0.py">
+    <Compile Include="libs\gui\base_classes.py" />
+    <Compile Include="libs\gui\fonts.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="libs\gui\classes.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="libs\gui\__init__.py" />
+    <Compile Include="libs\gui\layout\classes.py" />
+    <Compile Include="libs\gui\layout\__init__.py" />
+    <Compile Include="libs\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="menu test.py" />
+    <Compile Include="game_functions.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Riku\main.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="libs\utility\classes.py" />
+    <Compile Include="libs\utility\input.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="libs\utility\timing.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="libs\utility\__init__.py" />
+    <Compile Include="Noose Experiments\module2.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Andi\Prot_1\andi_classes.py">
@@ -64,16 +95,24 @@
     <Compile Include="Noose Experiments\shooting deprecated\Main.py" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="10372291_648047575285066_1884809349019088769_n.png" />
+    <Content Include="assets\graphics_audio_etc_in_this_folder.txt" />
     <Content Include="intro_ball.gif" />
     <Content Include="background.png" />
     <Content Include="red_square.png" />
+    <Content Include="scripts\main_game_logic_in_this_folder.txt" />
     <Content Include="Spielfigur.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Andi\" />
-    <Folder Include="Andi\Prot_1\" />
+    <Folder Include="libs\gui\" />
+    <Folder Include="libs\gui\layout\" />
+    <Folder Include="libs\" />
+    <Folder Include="assets\" />
+    <Folder Include="scripts\" />
+    <Folder Include="Riku\" />
     <Folder Include="Noose Experiments\" />
-    <Folder Include="Noose Experiments\shooting deprecated\" />
+    <Folder Include="libs\utility\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

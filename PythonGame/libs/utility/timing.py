@@ -1,0 +1,23 @@
+
+from pygame.time import Clock
+from pygame import time
+        
+
+class Timing(object):
+    framerate = 60
+
+    @classmethod
+    def init(cls):
+        cls.clock = Clock()
+
+    @classmethod
+    def get_time(cls):
+        return cls.clock.get_time()
+
+    @classmethod
+    def tick(cls):
+        cls.clock.tick(cls.framerate)
+
+    @staticmethod
+    def get_ticks():
+        return time.get_ticks()
