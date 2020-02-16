@@ -79,9 +79,6 @@ class GUI(object):
         for layout in self._layouts:
             layout.draw()
 
-        # Refresh pygame display after drawing all GUI elements
-        pg.display.update()
-
     def add_element(self, element, drawn_only=False):
         if drawn_only:
             self._drawn_elements.append(element)

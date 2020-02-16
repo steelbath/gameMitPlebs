@@ -110,7 +110,11 @@ def main():
     GUI_STATIC.set_active_gui(main_menu)
     Timing.init()
     running = True
+    burnable_events = [pygame.ACTIVEEVENT, pygame.VIDEORESIZE, pygame.VIDEOEXPOSE, pygame.USEREVENT]
     while running:
+        # Process all the events
+        pygame.event.pump()
+
         Input.refresh_input(GUI_STATIC.listen_text_input)
 
         if Game.state == GameState.RUNNING:
@@ -119,26 +123,21 @@ def main():
             Game.player.draw()
             
         # Some event burner loops, cant use event.get() as it kills input events
-        for event in pygame.event.get(eventtype=pygame.ACTIVEEVENT):
-            break
-        for event in pygame.event.get(eventtype=pygame.VIDEORESIZE):
-            # Graphics event on program window
-            break
-        for event in pygame.event.get(eventtype=pygame.VIDEOEXPOSE):
-            break
-        for event in pygame.event.get(eventtype=pygame.USEREVENT):
-            # Custom events
-            break
+        for event_type in burnable_events:
+            for event in pygame.event.get(eventtype=event_type):
+                break
 
         for event in pygame.event.get(eventtype=pygame.QUIT):
             running = False
             break
 
         GUI_STATIC.update()
-        Timing.tick()
 
-        # Get rid of extra events so they dont fill up
-        pygame.event.pump()
+        # Refresh pygame display after drawing all GUI elements
+        pygame.display.update()
+
+        # Tick frames forward
+        Timing.tick()
 
     print("Safely quit the program")
 

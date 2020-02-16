@@ -246,10 +246,6 @@ class Input(object):
 
     @classmethod
     def refresh_input(cls, parse_input=False):
-        # TODO/FIXME:
-        # Process events, probably should be refactored somewhere,
-        # where its only done once
-
         cls._refresh_keys()
         cls._refresh_mouse()
         cls._refresh_gamepad()
