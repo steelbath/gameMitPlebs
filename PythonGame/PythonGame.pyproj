@@ -53,6 +53,15 @@
     <Compile Include="game_functions.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Riku\base_creatures.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Riku\bullets.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Riku\game_assets.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Riku\main.py">
       <SubType>Code</SubType>
     </Compile>
@@ -98,6 +107,12 @@
     <Compile Include="Andi\Prot_1\main_andi.py" />
     <Compile Include="Noose Experiments\shooting deprecated\GameFunctions.py" />
     <Compile Include="Noose Experiments\shooting deprecated\Main.py" />
+    <Compile Include="Riku\player.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Riku\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include=".editorconfig" />

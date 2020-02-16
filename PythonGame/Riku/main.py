@@ -9,6 +9,9 @@ from libs.utility.classes import Color, Position
 from libs.utility.input import Input, InputText
 from libs.utility.timing import Timing
 
+from Riku.game_assets import Game, GameState
+from Riku.player import Player
+
 
 def main():
     pygame.init()
@@ -24,8 +27,26 @@ def main():
     settings_menu = GUI(screen)
     settings_menu.set_background_color(Color.black)
 
+    game_hud = GUI(screen)
+
     def clickered():
         print("clikety clakety")
+
+    def start_game():
+        Game.state = GameState.RUNNING
+        GUI_STATIC.set_active_gui(game_hud)
+
+        if Game.player is None:
+            Game.player = Player(
+                GUI_STATIC.active_screen,
+                pygame.image.load("Spielfigur.png").convert(),
+                (500,500),(0,0)
+            )
+
+    def back_to_menu():
+        Game.state = GameState.MAIN_MENU
+        GUI_STATIC.set_active_gui(main_menu)
+        Game.player = None
 
     def open_settings():
         GUI_STATIC.set_active_gui(settings_menu)
@@ -45,7 +66,7 @@ def main():
 
     # Setup main menu layout
     menu_buttons = [
-        Button(text="Play", on_click=clickered, shape=Rect(80, 40), **button_defaults),
+        Button(text="Play", on_click=start_game, shape=Rect(80, 40), **button_defaults),
         Button(text="Options", on_click=open_settings, shape=Rect(80, 40), **button_defaults),
         Button(text="Credits", on_click=clickered, shape=Rect(80, 40), **button_defaults),
         Button(text="Exit game", on_click=clickered, shape=Rect(80, 40), **button_defaults),
@@ -83,21 +104,43 @@ def main():
     main_menu.add_element(test_text, drawn_only=True)
     settings_menu.add_element(test_text, drawn_only=True)
 
-    GUI_STATIC.set_active_gui(main_menu)
+    back_to_menu_btn = Button(text="Quit", on_click=back_to_menu, shape=Rect(120, 40), **button_defaults)
+    game_hud.add_element(back_to_menu_btn)
 
+    GUI_STATIC.set_active_gui(main_menu)
     Timing.init()
     running = True
     while running:
         Input.refresh_input(GUI_STATIC.listen_text_input)
 
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                running = False
+        if Game.state == GameState.RUNNING:
+            screen.fill((0,0,0))  # Draw black backround for game
+            Game.player.update()
+            Game.player.draw()
+            
+        # Some event burner loops, cant use event.get() as it kills input events
+        for event in pygame.event.get(eventtype=pygame.ACTIVEEVENT):
+            break
+        for event in pygame.event.get(eventtype=pygame.VIDEORESIZE):
+            # Graphics event on program window
+            break
+        for event in pygame.event.get(eventtype=pygame.VIDEOEXPOSE):
+            break
+        for event in pygame.event.get(eventtype=pygame.USEREVENT):
+            # Custom events
+            break
+
+        for event in pygame.event.get(eventtype=pygame.QUIT):
+            running = False
+            break
 
         GUI_STATIC.update()
         Timing.tick()
 
-    print("Safely quit the progaram")
+        # Get rid of extra events so they dont fill up
+        pygame.event.pump()
+
+    print("Safely quit the program")
 
 
 if __name__=="__main__":

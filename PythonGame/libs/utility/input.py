@@ -203,6 +203,10 @@ class Input(object):
         cls._mouse_not_held = set()
         cls.mouse_pos = Position(*pg.mouse.get_pos())
 
+        for event in pg.event.get(eventtype=pg.MOUSEMOTION):
+            # Just eat up extra events for now
+            break
+
         # Get mouse down, also handle if it is being held
         for event in pg.event.get(eventtype=pg.MOUSEBUTTONDOWN):
             if event.button in cls._mouse_down:
@@ -217,16 +221,38 @@ class Input(object):
                 # Hack to make sure that mouse dont get stuck on 'held' position
                 cls._mouse_not_held.add(event.button)
             cls._mouse_up.add(event.button)
-            
+
+    @classmethod
+    def _refresh_gamepad(cls):
+        for event in pg.event.get(eventtype=pg.JOYAXISMOTION):
+            # Just eat up extra events for now
+            break
+
+        for event in pg.event.get(eventtype=pg.JOYBALLMOTION):
+            # Just eat up extra events for now
+            break
+
+        for event in pg.event.get(eventtype=pg.JOYHATMOTION):
+            # Just eat up extra events for now
+            break
+
+        for event in pg.event.get(eventtype=pg.JOYBUTTONUP):
+            # Just eat up extra events for now
+            break
+
+        for event in pg.event.get(eventtype=pg.JOYBUTTONDOWN):
+            # Just eat up extra events for now
+            break
+
     @classmethod
     def refresh_input(cls, parse_input=False):
         # TODO/FIXME:
         # Process events, probably should be refactored somewhere,
         # where its only done once
-        pg.event.pump()
 
         cls._refresh_keys()
         cls._refresh_mouse()
+        cls._refresh_gamepad()
 
         if parse_input:
             InputText.parse_input()
