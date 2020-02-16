@@ -1,7 +1,7 @@
 
 import pygame
 
-from libs.gui.layout.classes import Layout, LAYOUT_DIRECTION
+from libs.gui.layout.classes import Layout, LAYOUT_DIRECTION, LAYOUT_ALIGN
 from libs.gui.base_classes import GUI_STATIC
 from libs.gui.classes import GUI, Button, Rect, Text, TextElement, TEXT_ALIGN
 from libs.gui.fonts import Font
@@ -9,14 +9,14 @@ from libs.utility.classes import Color, Position
 from libs.utility.input import Input, InputText
 from libs.utility.timing import Timing
 
-from Riku.game_assets import Game, GameState
+from Riku.game_assets import Game, GameState, GameSettings
 from Riku.player import Player
 
 
 def main():
     pygame.init()
     pygame.display.set_caption("GUI testing")
-    screen = pygame.display.set_mode((1080,920))
+    screen = pygame.display.set_mode(GameSettings.screen_size())
     screen.fill((0,0,0))
     
     # Main menu
@@ -54,6 +54,9 @@ def main():
     def open_menu():
         GUI_STATIC.set_active_gui(main_menu)
 
+    def exit_program():
+        Game.running = False
+
     text_options = {
         "horizontal_align": TEXT_ALIGN.CENTER,
         "vertical_align": TEXT_ALIGN.CENTER,
@@ -68,11 +71,12 @@ def main():
     menu_buttons = [
         Button(text="Play", on_click=start_game, shape=Rect(80, 40), **button_defaults),
         Button(text="Options", on_click=open_settings, shape=Rect(80, 40), **button_defaults),
-        Button(text="Credits", on_click=clickered, shape=Rect(80, 40), **button_defaults),
-        Button(text="Exit game", on_click=clickered, shape=Rect(80, 40), **button_defaults),
+        Button(text="Credits", on_click=clickered, shape=Rect(160, 40), **button_defaults),
+        Button(text="Exit game", on_click=exit_program, shape=Rect(80, 40), **button_defaults),
     ]
     menu_layout = Layout(position=Position(50, 100), shape=Rect(100, 255), color=Color.dark_grey,
-                         padding=5, spacing=20, layout_direction=LAYOUT_DIRECTION.VERTICAL)
+                         padding=5, spacing=20, layout_direction=LAYOUT_DIRECTION.VERTICAL,
+                         layout_align=LAYOUT_ALIGN.CENTER)
     for element in menu_buttons:
         menu_layout.add_element(element)
     main_menu.add_layout(menu_layout)
@@ -109,9 +113,9 @@ def main():
 
     GUI_STATIC.set_active_gui(main_menu)
     Timing.init()
-    running = True
     burnable_events = [pygame.ACTIVEEVENT, pygame.VIDEORESIZE, pygame.VIDEOEXPOSE, pygame.USEREVENT]
-    while running:
+    Game.running = True  # Main game loop
+    while Game.running:
         # Process all the events
         pygame.event.pump()
 

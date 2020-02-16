@@ -369,6 +369,12 @@ class Rect(Shape):
     def get_height(self):
         return self.height
 
+    def set_width(self, width):
+        self.width = width
+
+    def set_height(self, height):
+        self.height = height
+
     def check_hit(self, normalized_pos: Position):
         """Checks that position normalized to corner of shape is within
             boundaries of this rectangle

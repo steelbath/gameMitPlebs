@@ -166,6 +166,12 @@ class Shape(object):
     def get_height(self):
         raise NotImplementedError("`get_height` is not implemented in %s" % self.__class__.__name__)
 
+    def set_width(self, width):
+        raise NotImplementedError("`set_width` is not implemented in %s" % self.__class__.__name__)
+
+    def set_height(self, height):
+        raise NotImplementedError("`set_height` is not implemented in %s" % self.__class__.__name__)
+
     def check_hit(self, normalized_pos: Position):
         """Checks that position normalized to center of shape is within
             boundaries of shape

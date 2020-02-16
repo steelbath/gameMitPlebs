@@ -1,6 +1,5 @@
 
 import pygame as pg
-from pygame.time import Clock
 from .classes import Position
 from .timing import Timing
 

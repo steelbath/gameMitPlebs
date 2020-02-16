@@ -68,7 +68,10 @@ class Player(Creature):
 
         self.shoot_tick_count -= 1
 
+        # This should be refactored somewhere else, so bullets get updated even if player dies
+        # Needed if player has lives and can respawn back amongst the battle
         self.bullets.update()
+
         super().update()
    
     def shoot(self, change, pos):

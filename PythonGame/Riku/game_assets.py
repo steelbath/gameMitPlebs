@@ -5,6 +5,10 @@ class GameSettings():
     screen_height = 768
     bg_color = (50,50,50)
 
+    @classmethod
+    def screen_size(cls):
+        return (cls.screen_width, cls.screen_height)
+
 
 class GameState:
     MAIN_MENU = 0
@@ -14,3 +18,4 @@ class GameState:
 class Game():
     state = GameState.MAIN_MENU
     player = None
+    running = False
