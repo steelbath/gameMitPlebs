@@ -15,13 +15,13 @@ class Player(Creature):
     def __init__(self, *args):
         super().__init__(*args)
 
-        self.bullets = Bullets(10)
         self.facing = [0, -1]
         self.shoot_tick_count = 0
 
         #tweakables
-        self.shoot_speed = 10
-        self.bullet_speed = 6
+        self.shoot_speed = 2
+        self.bullet_speed = 10
+        self.bullets = Bullets(100, self.bullet_speed)
 
     def update(self):
         # Check user input
@@ -61,10 +61,9 @@ class Player(Creature):
                 self.facing[i] = 0
 
         # Shoot if space pressed
-        if shooting:
-            if self.shoot_tick_count <= 0:
-                self.shoot(self.facing, self.pos)
-                self.shoot_tick_count = self.shoot_speed
+        if shooting and self.shoot_tick_count <= 0:
+            self.shoot(self.pos)
+            self.shoot_tick_count = self.shoot_speed
 
         self.shoot_tick_count -= 1
 
@@ -74,6 +73,6 @@ class Player(Creature):
 
         super().update()
    
-    def shoot(self, change, pos):
+    def shoot(self, pos):
         # Angle 180 because 0 is south
-        self.bullets.add(pos[0], pos[1], 180, self.shoot_speed)
+        self.bullets.add(pos[0], pos[1], 180)

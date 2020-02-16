@@ -123,6 +123,7 @@ def main():
 
         if Game.state == GameState.RUNNING:
             screen.fill((0,0,0))  # Draw black backround for game
+            print("\nFRAME :", Timing.frames_since_start)
             Game.player.update()
             Game.player.draw()
             

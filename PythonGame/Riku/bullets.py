@@ -12,16 +12,17 @@ class Bullets():
     """Class that holds all default bullets"""
     MAX_DIST_FROM_BOUNDS = 100
 
-    def __init__(self, max_bullets: int):
+    def __init__(self, max_bullets: int, speed: float):
         self.pool = StaticListPool()
         self.max_bullets = max_bullets
-        self.objects = np.zeros((max_bullets, 4), dtype=float)
+        self.speed = speed
+        self.objects = np.zeros((max_bullets, 3), dtype=float)
         self.active = np.zeros(max_bullets, dtype=bool)
 
         # Track amount of bullets in list
         self._bullets_created = 0
 
-    def add(self, x, y, angle, speed):
+    def add(self, x, y, angle):
         pooled_index = self.pool.get_object()
         if pooled_index is not None:
             index = pooled_index
@@ -33,10 +34,12 @@ class Bullets():
             self._bullets_created += 1
 
         if index >= self.max_bullets:
-            raise Exception("Lol maximum reached, wat nao?")
+            # Maximum amount of bullets reached, dont create a new one
+            self._bullets_created = self.max_bullets
+            return
 
         self.active[index] = True
-        self.objects[index] = x, y, angle, speed
+        self.objects[index] = x, y, angle
 
     def remove(self, index):
         self.pool.add(index)
@@ -60,7 +63,7 @@ class Bullets():
         # Return False if bullet still on screen
         return False
 
-    def check_bullet_validity(self, x, y, angle, speed):
+    def check_bullet_validity(self, x, y, angle):
         if self._check_out_of_bounds(x, y):
             return False
 
@@ -70,16 +73,16 @@ class Bullets():
 
     def update_bullet(self, index):
         # Get bullet data
-        x, y, angle, speed = self.objects[index]
+        x, y, angle = self.objects[index]
 
         # Do movement calculations for each bullet
-        pos = Position(x, y).get_coords_to_distance_and_angle(speed, angle)
+        pos = Position(x, y).get_coords_to_distance_and_angle(self.speed, angle)
 
-        return pos.x, pos.y, angle, speed
+        return pos.x, pos.y, angle
 
-    def set_update_data(self, index, x, y, angle, speed):
+    def set_update_data(self, index, x, y, angle):
         # Set values updated values back to array
-        self.objects[index] = x, y, angle, speed
+        self.objects[index] = x, y, angle
 
     def update(self):
         for i in range(0, self._bullets_created):

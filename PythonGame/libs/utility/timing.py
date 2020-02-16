@@ -5,6 +5,7 @@ from pygame import time
 
 class Timing(object):
     framerate = 60
+    frames_since_start = 0
 
     @classmethod
     def init(cls):
@@ -16,6 +17,7 @@ class Timing(object):
 
     @classmethod
     def tick(cls):
+        cls.frames_since_start  += 1
         cls.clock.tick(cls.framerate)
 
     @staticmethod
