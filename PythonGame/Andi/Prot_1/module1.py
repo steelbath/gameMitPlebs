@@ -25,7 +25,8 @@ def mobs_collide(mob_number, mobs_coordinates, mobs_list, screen):
     mob_speed_total = np.zeros((mob_number,mob_number,2))
     for i,mob_1 in enumerate(mobs_list):
         
-        screen.blit(mobs_list[i].image, ((int(mobs_coordinates[i,2,0]), int(mobs_coordinates[i,2,1]))))
+       
+        screen.blit(mobs_list[i].image,mobs_list[i].rect)
         
         mobs_coordinates[i,0] = mobs_list[i].topleft
         mobs_coordinates[i,1] = mobs_list[i].bottomright
@@ -38,12 +39,12 @@ def mobs_collide(mob_number, mobs_coordinates, mobs_list, screen):
              
                 if mobs_coordinates[i,0,0] <= mobs_coordinates[m,1,0] and mobs_coordinates[i,0,1] <= mobs_coordinates[m,1,1] and mobs_coordinates[i,1,0] >= mobs_coordinates[m,1,0] and mobs_coordinates[i,1,1] >= mobs_coordinates[m,1,1]:
                     
-                    mob_speed_total[i,m] = mob_1.collision(mobs_coordinates[m,3])
+                        mob_speed_total[i,m] = mob_1.collision(mobs_coordinates[m,3])
                     
                     
                 elif mobs_coordinates[i,1,0] >= mobs_coordinates[m,0,0] and mobs_coordinates[i,1,1] >= mobs_coordinates[m,0,1] and mobs_coordinates[i,0,0] <= mobs_coordinates[m,0,0] and mobs_coordinates[i,0,1] <= mobs_coordinates[m,0,1]:
                     
-                    mob_speed_total[i,m] = mob_1.collision(mobs_coordinates[m,3])
+                        mob_speed_total[i,m] = mob_1.collision(mobs_coordinates[m,3])
         
         if not mob_speed_total[i].all() == 0:
             mobs_list[i].speed = np.sum(mob_speed_total, axis = 1)[i]

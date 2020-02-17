@@ -10,7 +10,7 @@ Clock = pg.time.Clock()
 def main():
     number_of_mobs = 2
     pg.display.init()
-    screen = pg.display.set_mode((1024,678))
+    screen = pg.display.set_mode((1024,768))
 
 
     player = pg.image.load("Spielfigur.png").convert()
@@ -37,7 +37,6 @@ def main():
         if not pg.Rect(Player1.rect).collidelist(mobs_list) == -1:
             running = True
         #blit the players position and the movement
-     
         Player1.checkKeys()
         Player1.update()
         screen.blit(player, Player1.pos)
