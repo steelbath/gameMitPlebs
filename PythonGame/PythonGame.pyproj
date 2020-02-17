@@ -4,13 +4,15 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>242c130f-426c-44b1-9da7-269527289382</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>Andi\Prot_1\main_andi.py</StartupFile>
-    <SearchPath>
-    </SearchPath>
+    <StartupFile>Riku\main.py</StartupFile>
+    <SearchPath>..\PythonGame</SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
     <Name>PythonGame</Name>
     <RootNamespace>PythonGame</RootNamespace>
+    <IsWindowsApplication>False</IsWindowsApplication>
+    <LaunchProvider>Standard Python launcher</LaunchProvider>
+    <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -25,9 +27,52 @@
     <Compile Include="Andi\mobs.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Andi\prototype_0.py">
+    <Compile Include="libs\gui\base_classes.py" />
+    <Compile Include="libs\gui\fonts.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="libs\gui\classes.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="libs\gui\__init__.py" />
+    <Compile Include="libs\gui\layout\classes.py" />
+    <Compile Include="libs\gui\layout\__init__.py" />
+    <Compile Include="libs\pooling\dop_pool.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="libs\pooling\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="libs\pooling\oop_pool.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="libs\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="menu test.py" />
+    <Compile Include="game_functions.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Riku\base_creatures.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Riku\bullets.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Riku\game_assets.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Riku\main.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="libs\utility\classes.py" />
+    <Compile Include="libs\utility\input.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="libs\utility\timing.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="libs\utility\__init__.py" />
     <Compile Include="Andi\Prot_1\andi_classes.py">
       <SubType>Code</SubType>
     </Compile>
@@ -62,18 +107,35 @@
     <Compile Include="Andi\Prot_1\main_andi.py" />
     <Compile Include="Noose Experiments\shooting deprecated\GameFunctions.py" />
     <Compile Include="Noose Experiments\shooting deprecated\Main.py" />
+    <Compile Include="Riku\player.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Riku\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include=".editorconfig" />
+    <Content Include="assets\graphics_audio_etc_in_this_folder.txt" />
     <Content Include="intro_ball.gif" />
     <Content Include="background.png" />
     <Content Include="red_square.png" />
+    <Content Include="scripts\main_game_logic_in_this_folder.txt" />
     <Content Include="Spielfigur.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Andi\" />
     <Folder Include="Andi\Prot_1\" />
-    <Folder Include="Noose Experiments\" />
+    <Folder Include="libs\gui\" />
+    <Folder Include="libs\gui\layout\" />
+    <Folder Include="libs\" />
+    <Folder Include="assets\" />
+    <Folder Include="libs\pooling\" />
     <Folder Include="Noose Experiments\shooting deprecated\" />
+    <Folder Include="scripts\" />
+    <Folder Include="Riku\" />
+    <Folder Include="Noose Experiments\" />
+    <Folder Include="libs\utility\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
