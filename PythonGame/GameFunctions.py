@@ -43,8 +43,13 @@ def check_events(P1):
 #collision map:type, index
 cmap = np.zeros((768,1024,2),dtype=int)
 
+
+def bullethit(ma,i,bspeed):
+    ma[i].speed[0]=ma[i].speed[0]+bspeed[0]/10  
+    ma[i].speed[1]=ma[i].speed[1]+bspeed[1]/10
 #types = 0 empty 1 mob 2 player 3 bullet 
-def render_bullets(screen, P1):
+#ma=mobarray
+def render_bullets(screen,P1,ma):
     for i in range(0,99):
         if [P1.projectiles[i,0],P1.projectiles[i,1]] != [0,0]:
             cmap[P1.projectiles[i,1],P1.projectiles[i,0],0]=0
@@ -53,22 +58,23 @@ def render_bullets(screen, P1):
             if P1.projectiles[i,0] >= 1023 or P1.projectiles[i,0] <=0 or  P1.projectiles[i,1] >= 767 or P1.projectiles[i,1] <= 0:
                 P1.projectiles[i,0] = 0
                 P1.projectiles[i,1] = 0
-                X=0
-                y=0
             elif cmap[int(P1.projectiles[i,1]),int(P1.projectiles[i,0]),0] != 1:       
                 cmap[P1.projectiles[i,1],P1.projectiles[i,0],0]=3
                 pg.draw.rect(screen, (150,50,50), ( P1.projectiles[i,0],  P1.projectiles[i,1],5,5))
             else:
+                index = cmap[P1.projectiles[i,1], P1.projectiles[i,0],1]
+                bullethit(ma,index-1,[P1.projectiles[i,2],P1.projectiles[i,3]])
                 P1.projectiles[i,0] = 0
                 P1.projectiles[i,1] = 0
-                print('bullethit')
 
 
 
-
-def update_screen(GS, screen, P1,mob1):
+def update_screen(GS, screen, P1,mobarray):
     screen.fill(GS.bg_color)
     P1.blitme()
-    render_bullets(screen, P1)
-    mob1.blitme()
+    render_bullets(screen, P1,mobarray)
+    mobarray[0].blitme()
+    for i in range(0,3):
+        mobarray[i].blitme()
+
     pg.display.flip()

@@ -13,15 +13,21 @@ def game():
     pg.display.set_caption("Shootnshit")
 
     Player1 = Player(screen, pg.image.load("Spielfigur.png").convert(), (500,500),(0,0))
-    mob1 = testmob(screen, pg.image.load("goomba enemy.png").convert(),[50,50],[2,0])
-
+    mobcount = 3
+    mobarray = [0]*mobcount
+    for i in range(0,mobcount):
+        print(i)
+        x=np.random.randint(20,1004)
+        y=np.random.randint(20,748)
+        mobarray[i]=testmob(i,screen, pg.image.load("goomba enemy.png").convert(),[x,y],[2,0])
+  
     while True:
         gf.check_events(Player1)
         Player1.checkKeys()
         Player1.update()
-        mob1.update()
-
-        gf.update_screen(GS, screen, Player1,mob1) 
+        for i in range(0,mobcount):
+            mobarray[i].update()
+        gf.update_screen(GS, screen, Player1,mobarray) 
         Clock.tick(120)
 
 game()

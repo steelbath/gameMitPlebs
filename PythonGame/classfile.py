@@ -49,40 +49,37 @@ class Creature():
         self.screen.blit(self.image, self.rect)
 
 class testmob(Creature):
-    def __init__(self, *args):
+    def __init__(self,arrayindex, *args):
     #    self.pos=[40,150]
    #     self.speed =[2,0]
+        self.ind=arrayindex+1
         super().__init__(*args)
         
   #      self.rect=self.image.get_rect()
 
     def update(self):
         if self.speed != [0,0]:
-            self.pos[0]+=self.speed[0]
-            self.pos[1]+=self.speed[1]
-            for i in range(self.rect.y,self.rect.y+31):
-                for j in range(self.rect.x,self.rect.x+31):
+
+            for i in range(self.rect.y,self.rect.y+self.rect.h):
+                for j in range(self.rect.x,self.rect.x+self.rect.w):
                    cmap[i,j,0]=0
+                   cmap[i,j,1]=0
+
             self.rect.centerx = int(self.pos[0])
             self.rect.centery = int(self.pos[1])
 
-            if self.rect.right >= 1023:
-               self.rect.left = 0
-               self.pos[0] = self.rect.centerx
-            elif self.rect.left <0:
-                self.rect.right = 1023
-                self.pos[0] = self.rect.centerx
-            elif self.rect.bottom >= 767:
-                self.rect.top = 0
-                self.pos[1] = self.rect.centery
-            elif self.rect.top <= 0:
-                self.rect.bottom = 767
-                self.pos[1] = self.rect.centery
-            for i in range(self.rect.y,self.rect.y+31):
-                for j in range(self.rect.x,self.rect.x+31):
+            if self.rect.right+self.speed[0] >= 1023 or self.rect.left+self.speed[0] <0:
+               self.speed[0]*=-1
+            elif self.rect.bottom+self.speed[1] >= 767 or self.rect.top+self.speed[1] <= 0:
+               self.speed[1]*=-1
+            self.pos[0]+=self.speed[0]
+            self.pos[1]+=self.speed[1]
+            for i in range(self.rect.y,self.rect.y+self.rect.h):
+                for j in range(self.rect.x,self.rect.x+self.rect.w):
                     if cmap[i,j,0]==0:                       
                        cmap[i,j,0]=1
-                    else:print('walk into bullet')     
+                       cmap[i,j,1]=self.ind
+                    #else:print('walk into bullet')     
 
 
 class Player(Creature):
