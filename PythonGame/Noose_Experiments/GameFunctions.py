@@ -1,6 +1,5 @@
 import pygame as pg
 import sys
-import numpy as np 
 
 #compare signs true if same
 def csign(a,b):
@@ -39,36 +38,15 @@ def check_events(P1):
            if event.key == pg.K_SPACE:
                P1.shooting=0
 
-
-#collision map:type, index
-cmap = np.zeros((768,1024,2),dtype=int)
-
-#types = 0 empty 1 mob 2 player 3 bullet 
 def render_bullets(screen, P1):
     for i in range(0,99):
-        if [P1.projectiles[i,0],P1.projectiles[i,1]] != [0,0]:
-            cmap[P1.projectiles[i,1],P1.projectiles[i,0],0]=0
+        if [P1.projectiles[i,0], P1.projectiles[i,1]] != [0,0]:
+            pg.draw.rect(screen, (150,50,50), (P1.projectiles[i,0], P1.projectiles[i,1],5,5))
             P1.projectiles[i,0]+=P1.projectiles[i,2]
-            P1.projectiles[i,1]+=P1.projectiles[i,3]            
-            if P1.projectiles[i,0] >= 1023 or P1.projectiles[i,0] <=0 or  P1.projectiles[i,1] >= 767 or P1.projectiles[i,1] <= 0:
-                P1.projectiles[i,0] = 0
-                P1.projectiles[i,1] = 0
-                X=0
-                y=0
-            elif cmap[int(P1.projectiles[i,1]),int(P1.projectiles[i,0]),0] != 1:       
-                cmap[P1.projectiles[i,1],P1.projectiles[i,0],0]=3
-                pg.draw.rect(screen, (150,50,50), ( P1.projectiles[i,0],  P1.projectiles[i,1],5,5))
-            else:
-                P1.projectiles[i,0] = 0
-                P1.projectiles[i,1] = 0
-                print('bullethit')
+            P1.projectiles[i,1]+=P1.projectiles[i,3]
 
-
-
-
-def update_screen(GS, screen, P1,mob1):
+def update_screen(GS, screen, P1):
     screen.fill(GS.bg_color)
     P1.blitme()
     render_bullets(screen, P1)
-    mob1.blitme()
     pg.display.flip()

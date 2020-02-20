@@ -36,6 +36,8 @@ def check_events(P1):
            if event.key == pg.K_SPACE:
                P1.shooting=0
 
+
+
 def render_bullets(screen, P1):
     for i in range(0,99):
         if [P1.projectiles[i,0], P1.projectiles[i,1]] != [0,0]:
@@ -43,8 +45,10 @@ def render_bullets(screen, P1):
             P1.projectiles[i,0]+=P1.projectiles[i,2]
             P1.projectiles[i,1]+=P1.projectiles[i,3]
 
-def update_screen(GS, screen, P1):
+def update_screen(GS, screen, P1,bullets):
     screen.fill(GS.bg_color)
     P1.blitme()
-    render_bullets(screen, P1)
+    for bullet in bullets.sprites():
+        bullet.draw_bullet()
+    #render_bullets(screen, P1)
     pg.display.flip()

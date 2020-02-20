@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>242c130f-426c-44b1-9da7-269527289382</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>Riku\main.py</StartupFile>
+    <StartupFile>Main.py</StartupFile>
     <SearchPath>..\PythonGame</SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
@@ -50,7 +50,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="menu test.py" />
-    <Compile Include="game_functions.py">
+    <Compile Include="Noose_Experiments\classfile.py" />
+    <Compile Include="Noose_Experiments\GameFunctions.py" />
+    <Compile Include="Noose_Experiments\Main.py" />
+    <Compile Include="Noose_Experiments\GameClass.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Riku\base_creatures.py">
@@ -90,11 +93,11 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="classfile.py" />
-    <Compile Include="Noose Experiments\classfile.py" />
-    <Compile Include="Noose Experiments\GameFunctions.py" />
-    <Compile Include="Noose Experiments\Main.py" />
-    <Compile Include="Noose Experiments\shooting deprecated\classfile.py" />
-    <Compile Include="Noose Experiments\dumpfile.py">
+    <Compile Include="Noose_Experiments\sprites test\classfile.py" />
+    <Compile Include="Noose_Experiments\sprites test\GameFunctions.py" />
+    <Compile Include="Noose_Experiments\sprites test\Main.py" />
+    <Compile Include="Noose_Experiments\shooting deprecated\classfile.py" />
+    <Compile Include="Noose_Experiments\dumpfile.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Main.py">
@@ -105,8 +108,8 @@
     </Compile>
     <Compile Include="Andi\Prot_1\trashfile.py" />
     <Compile Include="Andi\Prot_1\main_andi.py" />
-    <Compile Include="Noose Experiments\shooting deprecated\GameFunctions.py" />
-    <Compile Include="Noose Experiments\shooting deprecated\Main.py" />
+    <Compile Include="Noose_Experiments\shooting deprecated\GameFunctions.py" />
+    <Compile Include="Noose_Experiments\shooting deprecated\Main.py" />
     <Compile Include="Riku\player.py">
       <SubType>Code</SubType>
     </Compile>
@@ -117,6 +120,8 @@
   <ItemGroup>
     <Content Include=".editorconfig" />
     <Content Include="assets\graphics_audio_etc_in_this_folder.txt" />
+    <Content Include="bullet.png" />
+    <Content Include="goomba enemy.png" />
     <Content Include="intro_ball.gif" />
     <Content Include="background.png" />
     <Content Include="red_square.png" />
@@ -131,10 +136,11 @@
     <Folder Include="libs\" />
     <Folder Include="assets\" />
     <Folder Include="libs\pooling\" />
-    <Folder Include="Noose Experiments\shooting deprecated\" />
+    <Folder Include="Noose_Experiments\sprites test\" />
+    <Folder Include="Noose_Experiments\shooting deprecated\" />
     <Folder Include="scripts\" />
     <Folder Include="Riku\" />
-    <Folder Include="Noose Experiments\" />
+    <Folder Include="Noose_Experiments\" />
     <Folder Include="libs\utility\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />

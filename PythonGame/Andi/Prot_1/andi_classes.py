@@ -36,9 +36,9 @@ class Enemies:
 
 
     def collision(self, mob_2):
-        self.mob_2 = mob_2
-        self.speed[0] = self.mob_2[0]
-        self.speed[1] = self.mob_2[1]
+       
+        self.speed[0] = mob_2[0]
+        self.speed[1] = mob_2[1]
         return np.array(self.speed)
 
 class GameSettings():

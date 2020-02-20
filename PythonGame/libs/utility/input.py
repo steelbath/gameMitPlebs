@@ -1,4 +1,3 @@
-
 import pygame as pg
 from .classes import Position
 from .timing import Timing
