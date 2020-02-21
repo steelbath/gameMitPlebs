@@ -1,7 +1,7 @@
 import pygame as pg
 import GameFunctions as gf
 import numpy as np
-from GameFunctions import cmap
+from pygame.sprite import Sprite, Group
 class GameSettings():
 
     def __init__(self):
@@ -11,6 +11,30 @@ class GameSettings():
         self.bg_color = (50,50,50)
 
 
+
+
+class Bullet(Sprite):
+    speedfactor=8
+    def __init__(self, screen,Player):
+        super().__init__()
+        self.screen = screen
+        self.image=pg.image.load('bullet.png').convert()
+        self.rect = self.image.get_rect()
+        self.rect.centerx= Player.rect.centerx
+        self.rect.centery = Player.rect.centery
+
+        self.pos = [self.rect.centerx,self.rect.centery]
+
+        self.speed=[Player.direction[0]*self.speedfactor,Player.direction[1]*self.speedfactor]
+
+
+    def update(self):
+        self.pos[0]+=self.speed[0]
+        self.pos[1]+=self.speed[1]
+        self.rect.centerx=self.pos[0]
+        self.rect.centery=self.pos[0]
+    def draw(self):
+        self.screen.blit(self.image, self.rect)
 
 class Creature():
     def __init__(self, screen, image, startpos:list=[0,0],speed:list=[0.0]):
@@ -23,7 +47,7 @@ class Creature():
         self.maxspeed = 2
         self.rect.centerx = startpos[0]
         self.rect.centery = startpos[1]
-
+        
     def update(self):
         if self.speed != [0,0]:
             self.pos[0]+=self.speed[0]
@@ -42,51 +66,16 @@ class Creature():
             elif self.rect.centery < 0:
                 self.rect.centery = 768
                 self.pos[1] = 768
-
-
-
+    
     def blitme(self):
         self.screen.blit(self.image, self.rect)
-
-class testmob(Creature):
-    def __init__(self,arrayindex, *args):
-    #    self.pos=[40,150]
-   #     self.speed =[2,0]
-        self.ind=arrayindex+1
-        super().__init__(*args)
         
-  #      self.rect=self.image.get_rect()
-
-    def update(self):
-        if self.speed != [0,0]:
-
-            for i in range(self.rect.y,self.rect.y+self.rect.h):
-                for j in range(self.rect.x,self.rect.x+self.rect.w):
-                   cmap[i,j,0]=0
-                   cmap[i,j,1]=0
-
-            self.rect.centerx = int(self.pos[0])
-            self.rect.centery = int(self.pos[1])
-
-            if self.rect.right+self.speed[0] >= 1023 or self.rect.left+self.speed[0] <0:
-               self.speed[0]*=-1
-            elif self.rect.bottom+self.speed[1] >= 767 or self.rect.top+self.speed[1] <= 0:
-               self.speed[1]*=-1
-            self.pos[0]+=self.speed[0]
-            self.pos[1]+=self.speed[1]
-            for i in range(self.rect.y,self.rect.y+self.rect.h):
-                for j in range(self.rect.x,self.rect.x+self.rect.w):
-                    if cmap[i,j,0]==0:                       
-                       cmap[i,j,0]=1
-                       cmap[i,j,1]=self.ind
-                    #else:print('walk into bullet')     
-
 
 class Player(Creature):
     #MaxWalkSpeed
     MWS=3.5
     ACCEL=0.15
-    def __init__(self, *args):
+    def __init__(self, bullets, *args):
         #up left down right
         self.direction = [0, 0]
         self.facing = [0,-1]
@@ -97,8 +86,9 @@ class Player(Creature):
         self.shooting=0
         self.shoottickcount=0
         #tweakables
-        self.shootspeed=3
+        self.shootspeed=10
         self.bulletspeed = 6
+        self.bullets=Group()
 
     def checkKeys(self):
 # Check movement input
@@ -133,14 +123,9 @@ class Player(Creature):
         if self.direction[1]:self.facing[1]= self.direction[1]
         elif self.direction[0]:self.facing[1]=0
    
-    def shoot(self, sdirection, spos):
-        i=self.lb
-        self.projectiles[i,0] = int (spos[0])
-        self.projectiles[i,1] = int(spos[1])
+    def shoot(self):
+        newBullet= Bullet(self.screen, self)
+        self.bullets.add(newBullet)
 
-        self.projectiles[i,2] = sdirection[0]*self.bulletspeed
-        self.projectiles[i,3] = sdirection[1]*self.bulletspeed
-        if not self.lb<99:self.lb=0
-        else: self.lb+=1
         
 
