@@ -14,6 +14,10 @@ class Enemies:
         self.rect.centery = start_pos[1]
         self.topleft = self.rect.topleft
         self.bottomright = self.rect.bottomright
+        self.left = self.rect.left
+        self.right = self.rect.right
+        self.top = self.rect.top
+        self.bottom = self.rect.bottom
 
     def move(self):
         self.pos[0]+=self.speed[0]
@@ -22,20 +26,32 @@ class Enemies:
         self.rect.centery = int(self.pos[1])
         self.topleft = self.rect.topleft
         self.bottomright = self.rect.bottomright
+        self.left = self.rect.left
+        self.right = self.rect.right
+        self.top = self.rect.top
+        self.bottom = self.rect.bottom
         
         if self.rect.right > 1024:
             self.speed[0] = np.random.random_sample()*(-10)
+            self.speed[1] = np.random.randint(-10,10)
         if self.rect.left < 0:
             self.speed[0] = np.random.random_sample()*10
+            self.speed[1] = np.random.randint(-10,10)
         if self.rect.top < 0:
             self.speed[1] = np.random.random_sample()*10
+            self.speed[0] = np.random.randint(-10,10)
         if self.rect.bottom > 768:
             self.speed[1] = np.random.random_sample()*(-10)
+            self.speed[0] = np.random.randint(-10,10)
         return self.rect
-    
-
-
     def collision(self, mob_2):
+        self.mob_2 = mob_2
+        self.speed[0] = -self.speed[0]
+        self.speed[1] = -self.speed[1]
+        return np.array(self.speed)
+
+
+    def collission(self, mob_2):
         self.mob_2 = mob_2
         self.speed[0] = self.mob_2[0]
         self.speed[1] = self.mob_2[1]

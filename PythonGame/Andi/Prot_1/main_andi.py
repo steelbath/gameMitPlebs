@@ -8,7 +8,7 @@ Clock = pg.time.Clock()
 
 
 def main():
-    number_of_mobs = 2
+    number_of_mobs = 3
     pg.display.init()
     screen = pg.display.set_mode((1024,768))
 
@@ -37,6 +37,10 @@ def main():
         if not pg.Rect(Player1.rect).collidelist(mobs_list) == -1:
             running = True
         #blit the players position and the movement
+        print(mobs_list[1].left)
+        #print(mobs_list[1].right)
+        #print(mobs_list[1].top)
+        #print(mobs_list[1].bottom)
         Player1.checkKeys()
         Player1.update()
         screen.blit(player, Player1.pos)
