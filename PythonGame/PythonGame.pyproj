@@ -116,6 +116,9 @@
     <Compile Include="Riku\__init__.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="startup_scenarios\grids.py">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include=".editorconfig" />
@@ -136,6 +139,7 @@
     <Folder Include="libs\" />
     <Folder Include="assets\" />
     <Folder Include="libs\pooling\" />
+    <Folder Include="startup_scenarios\" />
     <Folder Include="Noose_Experiments\sprites test\" />
     <Folder Include="Noose_Experiments\shooting deprecated\" />
     <Folder Include="scripts\" />
