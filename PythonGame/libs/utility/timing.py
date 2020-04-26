@@ -16,6 +16,10 @@ class Timing(object):
         return cls.clock.get_time()
 
     @classmethod
+    def get_fps(cls):
+        return cls.clock.get_fps()
+
+    @classmethod
     def tick(cls):
         cls.frames_since_start  += 1
         cls.clock.tick(cls.framerate)

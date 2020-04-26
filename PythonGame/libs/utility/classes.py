@@ -69,15 +69,109 @@ class Position(object, metaclass=PositionMeta):
     def get_distance_to_coords(self, x: int, y: int) -> float:
         return self.get_distance_to(Position(x, y))
 
+    def map_vertical_line(self, length: int):
+        points = [self]
+        for y in range(1, length):
+            points.append(Position(0, y) + self)
+
+        return points
+
+    def map_horizontal_line(self, length: int):
+        points = [self]
+        for x in range(1, length):
+            points.append(Position(x + self.x, self.y))
+
+        return points
+
+    def map_circle(self, radius: float):
+        """Calculates all positions inside circle and returns them as a list"""
+
+        points = []
+        added_rows = set()
+        circle_size = math.floor(radius * 2 * math.pi)
+        octant = math.ceil(circle_size / 4)
+
+        for y in range(0, octant + 1):
+            # Calculate initial octant position
+            angle = 45 / octant * y
+            edge_point = Position.zero.get_coords_to_distance_and_angle(radius, angle).round()
+            if edge_point.y in added_rows:
+                continue
+            
+            edge_point.x = -edge_point.x
+            added_rows.add(edge_point.y)
+            # points += (self + edge_point).map_horizontal_line(-edge_point.x * 2 + 1)
+            # Inlined map_horizontal_line for performance
+            offset = Position(self.x + edge_point.x, self.y + edge_point.y)
+            points.append(offset)
+            for x in range(1, -edge_point.x * 2 + 1):
+                points.append(Position(x + offset.x, offset.y))
+
+            # Negate Y to get other quadrant
+            negated_edge_point = Position(edge_point.x, -edge_point.y)
+            if negated_edge_point.y not in added_rows:
+                added_rows.add(negated_edge_point.y)
+                # points += (self + negated_edge_point).map_horizontal_line(-negated_edge_point.x * 2 + 1)
+                # Inlined map_horizontal_line for performance
+                offset = Position(self.x + negated_edge_point.x, self.y + negated_edge_point.y)
+                points.append(offset)
+                for x in range(1, -negated_edge_point.x * 2 + 1):
+                    points.append(Position(x + offset.x, offset.y))
+
+            # Swap X and Y to mirror octant
+            mirrored_octant = Position(-edge_point.y, -edge_point.x)
+            if mirrored_octant.y in added_rows:
+                continue
+
+            added_rows.add(mirrored_octant.y)
+            # points += (self + mirrored_octant).map_horizontal_line(-mirrored_octant.x * 2 + 1)
+            # Inlined map_horizontal_line for performance
+            offset = Position(self.x + mirrored_octant.x, self.y + mirrored_octant.y)
+            points.append(offset)
+            for x in range(1, -mirrored_octant.x * 2 + 1):
+                points.append(Position(x + offset.x, offset.y))
+
+            # Negate mirrored Y to get other quadrant
+            negated_mirrored_octant = Position(mirrored_octant.x, -mirrored_octant.y)
+            if negated_mirrored_octant.y not in added_rows:
+                added_rows.add(negated_mirrored_octant.y)
+                # points += (self + negated_mirrored_octant).map_horizontal_line(-negated_mirrored_octant.x * 2 + 1)
+                # Inlined map_horizontal_line for performance
+                offset = Position(self.x + negated_mirrored_octant.x, self.y + negated_mirrored_octant.y)
+                points.append(offset)
+                for x in range(1, -negated_mirrored_octant.x * 2 + 1):
+                    points.append(Position(x + offset.x, offset.y))
+
+        return points
+
     def normalize_to(self, other_pos) -> 'Position':
         return self - other_pos
+
+    def floor(self):
+        self.x = math.floor(self.x)
+        self.y = math.floor(self.y)
+        return self
+    
+    def ceil(self):
+        self.x = math.ceil(self.x)
+        self.y = math.ceil(self.y)
+        return self
+
+    def round(self):
+        self.x = round(self.x)
+        self.y = round(self.y)
+        return self
 
     @property
     def as_tuple(self):
         return (self.x, self.y)
-
+    
     # Override how this object is printed out
     def __str__(self):
+        return "Position (%s, %s)" % (self.x, self.y)
+
+    # Override how this object is printed out
+    def __repr__(self):
         return "Position (%s, %s)" % (self.x, self.y)
 
 

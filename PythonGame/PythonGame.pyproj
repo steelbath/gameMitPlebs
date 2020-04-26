@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>242c130f-426c-44b1-9da7-269527289382</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>Andi\Prot_1\main_andi.py</StartupFile>
+    <StartupFile>startup_scenarios\grids.py</StartupFile>
     <SearchPath>..\PythonGame</SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
@@ -44,6 +44,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="libs\pooling\oop_pool.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="libs\utility\grid.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="libs\__init__.py">
