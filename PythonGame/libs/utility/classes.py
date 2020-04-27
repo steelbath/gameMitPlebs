@@ -88,23 +88,22 @@ class Position(object, metaclass=PositionMeta):
 
         points = []
         added_rows = set()
-        circle_size = math.floor(radius * 2 * math.pi)
-        octant = math.ceil(circle_size / 4)
+        circle_size = radius * 2 * math.pi
+        octant = math.ceil(circle_size / 8)
+        angle_base = 45 / octant
 
         for y in range(0, octant + 1):
             # Calculate initial octant position
-            angle = 45 / octant * y
-            edge_point = Position.zero.get_coords_to_distance_and_angle(radius, angle).round()
+            angle = angle_base * y - 135.0
+            edge_point = Position.zero.get_coords_to_distance_and_angle(radius, angle).floor()
             if edge_point.y in added_rows:
                 continue
             
-            edge_point.x = -edge_point.x
             added_rows.add(edge_point.y)
             # points += (self + edge_point).map_horizontal_line(-edge_point.x * 2 + 1)
             # Inlined map_horizontal_line for performance
             offset = Position(self.x + edge_point.x, self.y + edge_point.y)
-            points.append(offset)
-            for x in range(1, -edge_point.x * 2 + 1):
+            for x in range(0, -edge_point.x * 2 + 1):
                 points.append(Position(x + offset.x, offset.y))
 
             # Negate Y to get other quadrant
@@ -114,12 +113,11 @@ class Position(object, metaclass=PositionMeta):
                 # points += (self + negated_edge_point).map_horizontal_line(-negated_edge_point.x * 2 + 1)
                 # Inlined map_horizontal_line for performance
                 offset = Position(self.x + negated_edge_point.x, self.y + negated_edge_point.y)
-                points.append(offset)
-                for x in range(1, -negated_edge_point.x * 2 + 1):
+                for x in range(0, -negated_edge_point.x * 2 + 1):
                     points.append(Position(x + offset.x, offset.y))
 
             # Swap X and Y to mirror octant
-            mirrored_octant = Position(-edge_point.y, -edge_point.x)
+            mirrored_octant = Position(edge_point.y, edge_point.x)
             if mirrored_octant.y in added_rows:
                 continue
 
@@ -127,8 +125,7 @@ class Position(object, metaclass=PositionMeta):
             # points += (self + mirrored_octant).map_horizontal_line(-mirrored_octant.x * 2 + 1)
             # Inlined map_horizontal_line for performance
             offset = Position(self.x + mirrored_octant.x, self.y + mirrored_octant.y)
-            points.append(offset)
-            for x in range(1, -mirrored_octant.x * 2 + 1):
+            for x in range(0, -mirrored_octant.x * 2 + 1):
                 points.append(Position(x + offset.x, offset.y))
 
             # Negate mirrored Y to get other quadrant
@@ -138,8 +135,7 @@ class Position(object, metaclass=PositionMeta):
                 # points += (self + negated_mirrored_octant).map_horizontal_line(-negated_mirrored_octant.x * 2 + 1)
                 # Inlined map_horizontal_line for performance
                 offset = Position(self.x + negated_mirrored_octant.x, self.y + negated_mirrored_octant.y)
-                points.append(offset)
-                for x in range(1, -negated_mirrored_octant.x * 2 + 1):
+                for x in range(0, -negated_mirrored_octant.x * 2 + 1):
                     points.append(Position(x + offset.x, offset.y))
 
         return points
