@@ -63,10 +63,10 @@ class Grid():
             if pos is OutOfBounds:
                 return False
 
-        if pos.x < 0 or pos.y < 0:
+        if pos[0] < 0 or pos[1] < 0:
             return False
 
-        if pos.x > self.width or pos.y > self.height:
+        if pos[0] > self.width or pos[1] > self.height:
             return False
         return True
 
@@ -185,8 +185,6 @@ class DebugBlock():
                 (self.filled_color.r, self.filled_color.g, self.filled_color.b),
                 (self._pos.x, self._pos.y, self._size.x, self._size.y)
             )
-        # else:
-        #     screen.fill(self.empty_color.as_tuple, (self._pos.as_tuple, self._size.as_tuple))
 
 
 class DebugZonedGrid(ZonedGrid, DebugGrid):
